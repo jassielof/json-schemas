@@ -1,0 +1,109 @@
+body {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+
+.schema-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.card-footer {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.file-match {
+  display: block;
+  margin-top: 0.75rem;
+  color: var(--text-muted);
+  width: 100%;
+}
+
+.viewer-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.schema-viewer {
+  background: var(--bg-subtle);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  overflow: auto;
+  max-height: 600px;
+}
+
+pre {
+  margin: 0;
+  overflow-x: auto;
+}
+
+.usage-examples {
+  margin-top: 1.5rem;
+}
+
+.tab-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tab-content>div:not(.active) {
+  display: none;
+}
+
+.loading {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 2rem;
+}
+
+.button.subtle {
+  background-color: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+}
+
+footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+}

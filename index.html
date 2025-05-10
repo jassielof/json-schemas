@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JSON Schema Repository</title>
+    <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>JSON Schema Repository</h1>
+      <p>A collection of useful JSON schemas for various formats</p>
+    </header>
+
+    <main>
+      <section class="intro">
+        <h2>Available Schemas</h2>
+        <p>
+          Click on a schema to view details, documentation, and usage examples.
+        </p>
+      </section>
+
+      <section id="schema-list" class="schema-cards">
+        <!-- Schema cards will be dynamically inserted here -->
+        <div class="loading">Loading schemas...</div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Maintained by <a href="https://github.com/jassielofok">jassielofok</a> |
+        <a href="https://github.com/jassielofok/your-repo">View on GitHub</a>
+      </p>
+    </footer>
+
+    <script src="js/schemas.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const schemaList = document.getElementById("schema-list");
+        schemaList.innerHTML = ""; // Clear loading message
+
+        // Render each schema as a card
+        schemas.forEach((schema) => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+                    <h3>${schema.name}</h3>
+                    <p>${schema.description}</p>
+                    <div class="card-footer">
+                        <a href="viewer.html?schema=${
+                          schema.file
+                        }" class="button">View Schema</a>
+                        <a href="${
+                          schema.file
+                        }" class="button subtle" download>Download</a>
+                        <small class="file-match">${schema.fileMatch.join(
+                          ", "
+                        )}</small>
+                    </div>
+                `;
+          schemaList.appendChild(card);
+        });
+      });
+    </script>
+  </body>
+</html>
