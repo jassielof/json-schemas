@@ -1,0 +1,6 @@
+This favicon was generated using the following font:
+
+- Font Title: Noto Sans Mono
+- Font Author: undefined
+- Font Source: https://fonts.gstatic.com/s/notosansmono/v32/BngrUXNETWXI6LwhGYvaxZikqZqK6fBq6kPvUce2oAZcdthSBUsYck4-_FNJ49rXVEQQL8Y.ttf
+- Font License: undefined)
