@@ -1,57 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JSON Schema Repository - jassielof</title>
-    <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css">
-    <link rel="stylesheet" href="css/custom.css">
-</head>
-<body>
+    <meta
+      name="description"
+      content="A collection of JSON schemas for various file formats"
+    />
+    <meta property="og:title" content="JSON Schema Repository" />
+    <meta
+      property="og:description"
+      content="Browse and download JSON schemas for data validation"
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="JSON Schema Repository" />
+    <meta
+      name="twitter:description"
+      content="Browse and download JSON schemas for data validation"
+    />
+
+    <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css" />
+  </head>
+  <body class="layout-simple">
     <header>
-        <h1>JSON Schema Repository</h1>
-        <p>A collection of JSON schemas for various file formats.</p>
+      <h1>JSON Schema Repository</h1>
     </header>
 
     <main>
-        <section id="schemas-list">
-            <h2>Available Schemas</h2>
-            <div class="loader" id="loader">Loading schemas...</div>
-            <div id="schemas-container"></div>
-        </section>
+      <section id="schemas-list">
+        <h2>Available Schemas</h2>
+        <p>Browse the collection of schemas available in this repository:</p>
+        <div id="loader">Loading schemas...</div>
 
-        <section id="schema-detail" class="hidden">
-            <button id="back-button" class="btn">&larr; Back to list</button>
-            <h2 id="schema-title">Schema Details</h2>
-            <div id="schema-info"></div>
-
-            <div class="schema-file-patterns">
-                <h3>File Patterns</h3>
-                <p>Configure your editor to use this schema with the following patterns:</p>
-                <div id="file-patterns"></div>
-            </div>
-
-            <div class="schema-usage">
-                <h3>Usage</h3>
-                <h4>VS Code</h4>
-                <pre><code id="vscode-usage"></code></pre>
-
-                <h4>Direct Reference</h4>
-                <pre><code id="direct-usage"></code></pre>
-            </div>
-
-            <div class="schema-content">
-                <h3>Schema Content</h3>
-                <pre><code id="schema-content"></code></pre>
-            </div>
-        </section>
+        <table id="schemas-table">
+          <thead>
+            <tr>
+              <th>Schema Name</th>
+              <th>Description</th>
+              <th>Version</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="schemas-container">
+            <!-- JS will populate this -->
+          </tbody>
+        </table>
+      </section>
     </main>
 
     <footer>
-        <p>Maintained by <a href="https://github.com/jassielof" target="_blank">jassielof</a> |
-        <a href="https://github.com/jassielof/json-schemas" target="_blank">GitHub Repository</a></p>
+      <nav>
+        <menu>
+          <li>
+            Maintained by
+            <a href="https://github.com/jassielof" target="_blank">jassielof</a>
+          </li>
+          <li>
+            <a href="https://github.com/jassielof/json-schemas" target="_blank"
+              >GitHub Repository</a
+            >
+          </li>
+        </menu>
+      </nav>
     </footer>
 
     <script src="js/schema-loader.js"></script>
-</body>
+  </body>
 </html>
