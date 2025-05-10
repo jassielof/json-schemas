@@ -9,7 +9,7 @@ const config = {
   repo: "json-schemas",
   path: "docs",
   fileExtension: ".schema.json",
-  baseUrl: "https://jassielof.github.io/json-schemas"
+  baseUrl: "https://jassielof.github.io/json-schemas",
 };
 
 // Schema version mapping
@@ -176,7 +176,7 @@ function createSchemaRow(file, schemaData) {
   const usageNote = document.createElement("small");
   const usageText = document.createTextNode("Add to your file:");
   const usageCode = document.createElement("code");
-  usageCode.textContent = `# $schema: ${pagesUrl}`;
+  usageCode.textContent = pagesUrl;
 
   usageNote.appendChild(usageText);
   usageNote.appendChild(document.createElement("br"));
