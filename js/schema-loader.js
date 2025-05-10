@@ -1,92 +1,212 @@
-document.addEventListener("DOMContentLoaded", function () {
+// Schema Repository Loader
+// Uses modern JS patterns and avoids direct innerHTML where possible
+
+document.addEventListener("DOMContentLoaded", initSchemaLoader);
+
+// Repository configuration
+const config = {
+  owner: "jassielof",
+  repo: "json-schemas",
+  path: "docs",
+  fileExtension: ".schema.json",
+};
+
+// Schema version mapping
+const schemaVersions = new Map([
+  ["draft-07", "Draft 07"],
+  ["draft-06", "Draft 06"],
+  ["draft-04", "Draft 04"],
+  ["2019-09", "Draft 2019-09"],
+  ["2020-12", "Draft 2020-12"],
+]);
+
+/**
+ * Initialize the schema loader
+ */
+async function initSchemaLoader() {
   const schemasContainer = document.getElementById("schemas-container");
   const loader = document.getElementById("loader");
 
-  // Extract schema version from $schema URL
-  function extractSchemaVersion(schemaUrl) {
-    if (!schemaUrl) return "Unknown";
+  try {
+    const schemaFiles = await fetchSchemaFiles();
+    await renderSchemaList(schemaFiles, schemasContainer);
+  } catch (error) {
+    renderError(error, schemasContainer);
+  } finally {
+    loader.style.display = "none";
+  }
+}
 
-    if (schemaUrl.includes("draft-07")) return "Draft 07";
-    if (schemaUrl.includes("draft-06")) return "Draft 06";
-    if (schemaUrl.includes("draft-04")) return "Draft 04";
-    if (schemaUrl.includes("2019-09")) return "Draft 2019-09";
-    if (schemaUrl.includes("2020-12")) return "Draft 2020-12";
+/**
+ * Fetch schema files from GitHub repository
+ * @returns {Promise<Array>} Array of schema files
+ */
+async function fetchSchemaFiles() {
+  const { owner, repo, path, fileExtension } = config;
+  const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
-    return "Custom";
+  const response = await fetch(apiUrl);
+  if (!response.ok) {
+    throw new Error(`GitHub API error: ${response.status}`);
   }
 
-  // Fetch list of schema files
-  async function loadSchemas() {
+  const data = await response.json();
+  if (!Array.isArray(data)) {
+    throw new Error("Invalid response format from GitHub API");
+  }
+
+  const schemaFiles = data.filter((file) => file.name.endsWith(fileExtension));
+  if (schemaFiles.length === 0) {
+    throw new Error(`No schema files found with extension ${fileExtension}`);
+  }
+
+  return schemaFiles;
+}
+
+/**
+ * Determine the schema version from schema URL
+ * @param {string} schemaUrl - Schema URL to analyze
+ * @returns {string} Human-readable version
+ */
+function getSchemaVersion(schemaUrl) {
+  if (!schemaUrl) return "Unknown";
+
+  for (const [versionId, versionName] of schemaVersions.entries()) {
+    if (schemaUrl.includes(versionId)) {
+      return versionName;
+    }
+  }
+
+  return "Custom";
+}
+
+/**
+ * Render the list of schemas
+ * @param {Array} schemaFiles - List of schema files from GitHub API
+ * @param {HTMLElement} container - Container to render into
+ */
+async function renderSchemaList(schemaFiles, container) {
+  container.innerHTML = ""; // Clear any existing content
+
+  for (const file of schemaFiles) {
     try {
-      const repoOwner = "jassielof";
-      const repoName = "json-schemas";
-      const path = "docs";
-
-      const response = await fetch(
-        `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`
-      );
-      const data = await response.json();
-
-      if (Array.isArray(data)) {
-        const schemaFiles = data.filter((file) =>
-          file.name.endsWith(".schema.json")
-        );
-
-        if (schemaFiles.length === 0) {
-          schemasContainer.innerHTML =
-            '<tr><td colspan="4">No schema files found. Add JSON schemas to the docs/ directory with .schema.json extension.</td></tr>';
-        } else {
-          await displaySchemasList(schemaFiles);
-        }
-      }
+      const schemaData = await fetchSchemaData(file.download_url);
+      const schemaRow = createSchemaRow(file, schemaData);
+      container.appendChild(schemaRow);
     } catch (error) {
-      console.error("Error fetching schemas:", error);
-      schemasContainer.innerHTML = `<tr><td colspan="4">Error loading schemas: ${error.message}. Make sure the repository is public and contains schema files.</td></tr>`;
-    } finally {
-      loader.style.display = "none";
+      const errorRow = createErrorRow(file.name, error.message);
+      container.appendChild(errorRow);
+      console.error(`Error processing schema ${file.name}:`, error);
     }
   }
+}
 
-  // Display list of schemas
-  async function displaySchemasList(schemaFiles) {
-    for (const file of schemaFiles) {
-      try {
-        // Fetch and parse each schema file
-        const response = await fetch(file.download_url);
-        const schemaData = await response.json();
-
-        // Extract metadata
-        const title = schemaData.title || file.name.replace(".schema.json", "");
-        const description = schemaData.description || "No description provided";
-        const schemaVersion = extractSchemaVersion(schemaData.$schema);
-
-        // Create table row
-        const row = document.createElement("tr");
-
-        row.innerHTML = `
-                    <td><strong>${title}</strong><br><small>${file.name}</small></td>
-                    <td>${description}</td>
-                    <td>${schemaVersion}</td>
-                    <td>
-                        <a href="${file.download_url}" target="_blank">Download</a>
-                        <br>
-                        <small>Add to your file:<br># $schema: ${file.download_url}</small>
-                    </td>
-                `;
-
-        schemasContainer.appendChild(row);
-      } catch (error) {
-        console.error(`Error processing schema ${file.name}:`, error);
-        const errorRow = document.createElement("tr");
-        errorRow.innerHTML = `
-                    <td>${file.name}</td>
-                    <td colspan="3">Error loading schema: ${error.message}</td>
-                `;
-        schemasContainer.appendChild(errorRow);
-      }
-    }
+/**
+ * Fetch and parse an individual schema file
+ * @param {string} url - URL to fetch schema from
+ * @returns {Promise<Object>} Parsed schema data
+ */
+async function fetchSchemaData(url) {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch schema: ${response.status}`);
   }
+  return response.json();
+}
 
-  // Load schemas when page loads
-  loadSchemas();
-});
+/**
+ * Create a table row for a schema
+ * @param {Object} file - File metadata from GitHub API
+ * @param {Object} schemaData - Parsed schema data
+ * @returns {HTMLTableRowElement} Table row element
+ */
+function createSchemaRow(file, schemaData) {
+  const row = document.createElement("tr");
+
+  // Schema name cell
+  const nameCell = document.createElement("td");
+  const nameTitle = document.createElement("strong");
+  nameTitle.textContent =
+    schemaData.title || file.name.replace(".schema.json", "");
+  const nameDetails = document.createElement("small");
+  nameDetails.textContent = file.name;
+  nameCell.appendChild(nameTitle);
+  nameCell.appendChild(document.createElement("br"));
+  nameCell.appendChild(nameDetails);
+
+  // Description cell
+  const descriptionCell = document.createElement("td");
+  descriptionCell.textContent =
+    schemaData.description || "No description provided";
+
+  // Version cell
+  const versionCell = document.createElement("td");
+  versionCell.textContent = getSchemaVersion(schemaData.$schema);
+
+  // Actions cell
+  const actionsCell = document.createElement("td");
+  const downloadLink = document.createElement("a");
+  downloadLink.href = file.download_url;
+  downloadLink.target = "_blank";
+  downloadLink.textContent = "Download";
+
+  const usageNote = document.createElement("small");
+  const usageText = document.createTextNode("Add to your file:");
+  const usageCode = document.createElement("code");
+  usageCode.textContent = `# $schema: ${file.download_url}`;
+
+  usageNote.appendChild(usageText);
+  usageNote.appendChild(document.createElement("br"));
+  usageNote.appendChild(usageCode);
+
+  actionsCell.appendChild(downloadLink);
+  actionsCell.appendChild(document.createElement("br"));
+  actionsCell.appendChild(usageNote);
+
+  // Append all cells to the row
+  row.appendChild(nameCell);
+  row.appendChild(descriptionCell);
+  row.appendChild(versionCell);
+  row.appendChild(actionsCell);
+
+  return row;
+}
+
+/**
+ * Create an error row for display
+ * @param {string} fileName - Name of the file with error
+ * @param {string} errorMessage - Error message to display
+ * @returns {HTMLTableRowElement} Table row element
+ */
+function createErrorRow(fileName, errorMessage) {
+  const row = document.createElement("tr");
+
+  const nameCell = document.createElement("td");
+  nameCell.textContent = fileName;
+
+  const errorCell = document.createElement("td");
+  errorCell.colSpan = 3;
+  errorCell.textContent = `Error loading schema: ${errorMessage}`;
+
+  row.appendChild(nameCell);
+  row.appendChild(errorCell);
+
+  return row;
+}
+
+/**
+ * Render a general error message
+ * @param {Error} error - The error object
+ * @param {HTMLElement} container - Container to render into
+ */
+function renderError(error, container) {
+  const row = document.createElement("tr");
+  const cell = document.createElement("td");
+  cell.colSpan = 4;
+  cell.textContent = `Error loading schemas: ${error.message}. Make sure the repository is public and contains schema files.`;
+  row.appendChild(cell);
+  container.innerHTML = "";
+  container.appendChild(row);
+
+  console.error("Error fetching schemas:", error);
+}
