@@ -1,3 +1,5 @@
+const schemaBasePath = "docs/";
+
 const schemas = [
   {
     name: "Hayagriva Bibliography Schema",
@@ -15,3 +17,7 @@ const schemas = [
     version: "0.1.0",
   },
 ];
+
+function getSchemaPath(schema) {
+  return schemaBasePath + schema;
+}

@@ -77,14 +77,13 @@
         }
 
         const schemaDetails = document.getElementById("schema-details");
-
         try {
           // Find schema metadata
           const schema = schemas.find((s) => s.file === schemaFile);
           if (!schema) throw new Error("Schema not found");
 
-          // Load schema content
-          const response = await fetch(schemaFile);
+          // Load schema content - use getSchemaPath here
+          const response = await fetch(getSchemaPath(schemaFile));
           const schemaContent = await response.json();
 
           // Set document title

@@ -22,15 +22,14 @@
       </section>
 
       <section id="schema-list" class="schema-cards">
-        <!-- Schema cards will be dynamically inserted here -->
         <div class="loading">Loading schemas...</div>
       </section>
     </main>
 
     <footer>
       <p>
-        Maintained by <a href="https://github.com/jassielofok">jassielofok</a> |
-        <a href="https://github.com/jassielofok/your-repo">View on GitHub</a>
+        Maintained by <a href="https://github.com/jassielof">jassielof</a> |
+        <a href="https://github.com/jassielof/json-schemas">View on GitHub</a>
       </p>
     </footer>
 
@@ -40,25 +39,22 @@
         const schemaList = document.getElementById("schema-list");
         schemaList.innerHTML = ""; // Clear loading message
 
-        // Render each schema as a card
         schemas.forEach((schema) => {
           const card = document.createElement("div");
           card.className = "card";
           card.innerHTML = `
-                    <h3>${schema.name}</h3>
-                    <p>${schema.description}</p>
-                    <div class="card-footer">
-                        <a href="viewer.html?schema=${
-                          schema.file
-                        }" class="button">View Schema</a>
-                        <a href="${
-                          schema.file
-                        }" class="button subtle" download>Download</a>
-                        <small class="file-match">${schema.fileMatch.join(
-                          ", "
-                        )}</small>
-                    </div>
-                `;
+            <h3>${schema.name}</h3>
+            <p>${schema.description}</p>
+            <div class="card-footer">
+                <a href="viewer.html?schema=${
+                  schema.file
+                }" class="button">View Schema</a>
+                <a href="${getSchemaPath(
+                  schema.file
+                )}" class="button subtle" download>Download</a>
+                <small class="file-match">${schema.fileMatch.join(", ")}</small>
+            </div>
+        `;
           schemaList.appendChild(card);
         });
       });
