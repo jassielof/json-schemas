@@ -2,18 +2,17 @@ const schemaBasePath = "docs/";
 
 const schemas = [
   {
-    name: "Hayagriva Bibliography Schema",
+    name: "Hayagriva Bibliography Management",
     file: "hayagriva.schema.json",
-    description:
-      "JSON schema for validating Hayagriva YAML bibliography files.",
-    fileMatch: ["*.bib.yaml", "references.yaml"],
+    description: "For validating Hayagriva YAML bibliography files.",
+    fileMatch: ["*.bib.yaml", "references.yaml", "*hayagriva.yaml"],
     version: "1.0.0",
   },
   {
-    name: "Example Schema",
-    file: "another.schema.json",
-    description: "Another example schema for demonstration purposes.",
-    fileMatch: ["*.example.yaml", "example.config.yaml"],
+    name: "Typst Manifesto",
+    file: "typst-manifesto.schema.json",
+    description: "For validating Typst manifesto files.",
+    fileMatch: ["typst.toml"],
     version: "0.1.0",
   },
 ];
