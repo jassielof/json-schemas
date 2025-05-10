@@ -9,6 +9,7 @@ const config = {
   repo: "json-schemas",
   path: "docs",
   fileExtension: ".schema.json",
+  baseUrl: "https://jassielof.github.io/json-schemas"
 };
 
 // Schema version mapping
@@ -35,6 +36,25 @@ async function initSchemaLoader() {
   } finally {
     loader.style.display = "none";
   }
+}
+
+/**
+ * Convert raw GitHub URL to GitHub Pages URL
+ * @param {string} rawUrl - Raw GitHub URL
+ * @returns {string} GitHub Pages URL
+ */
+function getGitHubPagesUrl(rawUrl) {
+  // If it's already a GitHub Pages URL, return it as is
+  if (rawUrl.includes(`${config.baseUrl}`)) {
+    return rawUrl;
+  }
+
+  // Extract the file path from the raw URL
+  const filePath = rawUrl.split(`/${config.owner}/${config.repo}/main/`)[1];
+  if (!filePath) return rawUrl; // If pattern doesn't match, return original URL
+
+  // Construct the GitHub Pages URL
+  return `${config.baseUrl}/${filePath}`;
 }
 
 /**
@@ -123,6 +143,9 @@ async function fetchSchemaData(url) {
 function createSchemaRow(file, schemaData) {
   const row = document.createElement("tr");
 
+  // Convert GitHub raw URL to GitHub Pages URL
+  const pagesUrl = getGitHubPagesUrl(file.download_url);
+
   // Schema name cell
   const nameCell = document.createElement("td");
   const nameTitle = document.createElement("strong");
@@ -146,14 +169,14 @@ function createSchemaRow(file, schemaData) {
   // Actions cell
   const actionsCell = document.createElement("td");
   const downloadLink = document.createElement("a");
-  downloadLink.href = file.download_url;
+  downloadLink.href = pagesUrl;
   downloadLink.target = "_blank";
   downloadLink.textContent = "Download";
 
   const usageNote = document.createElement("small");
   const usageText = document.createTextNode("Add to your file:");
   const usageCode = document.createElement("code");
-  usageCode.textContent = `# $schema: ${file.download_url}`;
+  usageCode.textContent = `# $schema: ${pagesUrl}`;
 
   usageNote.appendChild(usageText);
   usageNote.appendChild(document.createElement("br"));
