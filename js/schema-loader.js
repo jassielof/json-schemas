@@ -168,24 +168,19 @@ function createSchemaRow(file, schemaData) {
 
   // Actions cell
   const actionsCell = document.createElement("td");
-  const downloadLink = document.createElement("a");
-  downloadLink.href = pagesUrl;
-  downloadLink.target = "_blank";
-  downloadLink.textContent = "Download";
 
-  const usageNote = document.createElement("small");
-  const usageText = document.createTextNode("Add to your file:");
-  const usageCode = document.createElement("code");
-  usageCode.textContent = pagesUrl;
+  const copyButton = document.createElement("button");
+  copyButton.type = "button";
+  copyButton.textContent = "Copy URL";
+  copyButton.style.marginLeft = "0.5em";
+  copyButton.addEventListener("click", () => {
+    navigator.clipboard.writeText(pagesUrl).then(() => {
+      copyButton.textContent = "Copied!";
+      setTimeout(() => (copyButton.textContent = "Copy URL"), 1200);
+    });
+  });
 
-  usageNote.appendChild(usageText);
-  usageNote.appendChild(document.createElement("br"));
-  usageNote.appendChild(usageCode);
-
-  actionsCell.appendChild(downloadLink);
-  actionsCell.appendChild(document.createElement("br"));
-  actionsCell.appendChild(usageNote);
-
+  actionsCell.appendChild(copyButton);
   // Append all cells to the row
   row.appendChild(nameCell);
   row.appendChild(descriptionCell);
