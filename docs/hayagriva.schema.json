@@ -92,13 +92,16 @@
   ],
   "definitions": {
     "entry": {
+      "title": "Bibliography Entry",
       "type": "object",
       "description": "A single bibliography entry.",
       "properties": {
         "type": {
-          "$ref": "#/definitions/entryType"
+          "$ref": "#/definitions/entryType",
+          "title": "Type of the entry"
         },
         "title": {
+          "title": "Title",
           "description": "The title of this entry.",
           "$ref": "#/definitions/formattableString",
           "examples": [
@@ -111,6 +114,7 @@
           ]
         },
         "author": {
+          "title": "Author",
           "description": "The person or people primarily responsible for the creation of this entry.",
           "$ref": "#/definitions/personOrList"
         },
@@ -130,6 +134,7 @@
           ]
         },
         "abstract": {
+          "title": "Abstract",
           "description": "The abstract or summary of the entry.",
           "$ref": "#/definitions/formattableString",
           "examples": [
@@ -215,6 +220,7 @@
           "$ref": "#/definitions/serialNumber"
         },
         "language": {
+          "title": "Language",
           "description": "The language of the entry.",
           "$ref": "#/definitions/language"
         },
@@ -266,9 +272,11 @@
     },
     "entryType": {
       "type": "string",
+      "title": "Entry Type",
       "description": "The media type of the entry. Often determines the structure of references.",
-      "default": "Misc",
+      "default": "misc",
       "pattern": "^(?:[Aa]rticle|[Cc]hapter|[Ee]ntry|[Aa]nthos|[Rr]eport|[Tt]hesis|[Ww]eb|[Ss]cene|[Aa]rtwork|[Pp]atent|[Cc]ase|[Nn]ewspaper|[Ll]egislation|[Mm]anuscript|[Oo]riginal|[Pp]ost|[Mm]isc|[Pp]erformance|[Pp]eriodical|[Pp]roceedings|[Bb]ook|[Bb]log|[Rr]eference|[Cc]onference|[Aa]nthology|[Rr]epository|[Tt]hread|[Vv]ideo|[Aa]udio|[Ee]xhibition)$",
+
       "examples": [
         "article",
         "chapter",
@@ -606,7 +614,15 @@
     "language": {
       "description": "The Language of the entry.",
       "$comment": "Unicode Language Identifier (BCP 47).",
-      "examples": ["zh-Hans"],
+      "examples": [
+        "zh-Hans",
+        "en-US",
+        "de-AT",
+        "fr-FR",
+        "es-ES",
+        "pt-BR",
+        "ja-JP"
+      ],
       "type": "string",
       "pattern": "^[a-z]{2,3}(-[A-Z][a-z]{3,4})?(-[A-Z]{2})?$"
     }
