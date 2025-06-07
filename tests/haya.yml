@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=../docs/hayagriva.schema.json
+CleanCode:
+  type: book
+  abstract: The dominant sequence transduction models are based on complex...
+  language: en-US
+  title: Clean Code
+
+ArtOfProgramming:
+  type: report
+  date: 1920-01-01
+  author:
+    given-name: Gloria Jean
+    name: Watkins
+    alias: bell hooks
+    prefix: Miss PhD.
+    suffix: Suffix
+  abstract: The dominant sequence transduction models are based on complex...
+  archive: National Library of New Zealand
+  affiliated:
+    - role: afterword
+      names:
+        given-name: Gloria Jean
+        name: Watkins
+        alias: bell hooks
+  archive-location: Wellington, New Zealand
+  

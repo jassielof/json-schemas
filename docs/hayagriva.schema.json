@@ -4,6 +4,7 @@
   "title": "Hayagriva",
   "type": "object",
   "description": "A bibliography management format for the modern age.",
+  "markdownDescription": "A bibliography management format for the modern age. It is designed to be simple, flexible, and easy to use, while still being powerful enough to handle complex bibliographic data.",
   "additionalProperties": {
     "$ref": "#/definitions/entry"
   },
@@ -119,10 +120,12 @@
           "$ref": "#/definitions/personOrList"
         },
         "date": {
+          "title": "Date",
           "description": "The date of publication or creation of this entry.",
           "$ref": "#/definitions/date"
         },
         "parent": {
+          "title": "Parent Entry",
           "description": "Entry in which the current entry was published, or to which it is strongly associated.",
           "$ref": "#/definitions/parentOrArray",
           "examples": [
@@ -225,16 +228,19 @@
           "$ref": "#/definitions/language"
         },
         "archive": {
+          "title": "Archive",
           "description": "The name of the institution/collection where the entry is kept.",
           "$ref": "#/definitions/formattableString",
           "examples": ["National Library of New Zealand"]
         },
         "archive-location": {
+          "title": "Archive Location",
           "description": "The location of the institution/collection where the entry is kept.",
           "$ref": "#/definitions/formattableString",
           "examples": ["Wellington, New Zealand"]
         },
         "note": {
+          "title": "Note",
           "description": "A short markup, decoration, or annotation to the entry (e.g., to indicate items included in a review).",
           "$ref": "#/definitions/formattableString",
           "examples": ["microfilm version"]
@@ -276,7 +282,7 @@
       "description": "The media type of the entry. Often determines the structure of references.",
       "default": "misc",
       "pattern": "^(?:[Aa]rticle|[Cc]hapter|[Ee]ntry|[Aa]nthos|[Rr]eport|[Tt]hesis|[Ww]eb|[Ss]cene|[Aa]rtwork|[Pp]atent|[Cc]ase|[Nn]ewspaper|[Ll]egislation|[Mm]anuscript|[Oo]riginal|[Pp]ost|[Mm]isc|[Pp]erformance|[Pp]eriodical|[Pp]roceedings|[Bb]ook|[Bb]log|[Rr]eference|[Cc]onference|[Aa]nthology|[Rr]epository|[Tt]hread|[Vv]ideo|[Aa]udio|[Ee]xhibition)$",
-
+      "$comment": "Typst supports case insensitive for the first letter, but the rest must be lowercase.",
       "examples": [
         "article",
         "chapter",
@@ -325,14 +331,16 @@
       ]
     },
     "affiliatedList": {
+      "$comment": "Typst doesn't throw error if this is an object.",
+      "title": "Affiliated People",
       "type": "array",
       "examples": [
         {
-          "role": "Director",
+          "role": "director",
           "names": "Cameron, James"
         },
         {
-          "role": "CastMember",
+          "role": "cast-member",
           "names": [
             "Schwarzenegger, Arnold",
             "Hamilton, Linda",
@@ -341,13 +349,16 @@
         }
       ],
       "items": {
+        "title": "Affiliated List",
         "type": "object",
         "properties": {
           "role": {
+            "title": "Role",
             "description": "The role of the person or people in relation to the entry.",
             "$ref": "#/definitions/roleType"
           },
           "names": {
+            "title": "People Involved",
             "description": "The name(s) of the person or people involved in the role.",
             "$ref": "#/definitions/personOrList"
           }
@@ -359,6 +370,7 @@
     },
     "roleType": {
       "type": "string",
+      "$comment": "Typst only supports case sensitive roles, the docs are inconsistent with this.",
       "enum": [
         "translator",
         "afterword",
@@ -426,22 +438,27 @@
           "type": "object",
           "properties": {
             "name": {
+              "title": "Name",
               "description": "The family name of the person.",
               "type": "string"
             },
             "given-name": {
+              "title": "Given Name",
               "description": "The given name of the person.",
               "type": "string"
             },
             "prefix": {
+              "title": "Prefix",
               "description": "The prefix of the person's name.",
               "type": "string"
             },
             "suffix": {
+              "title": "Suffix",
               "description": "The suffix of the person's name.",
               "type": "string"
             },
             "alias": {
+              "title": "Alias",
               "description": "An alias for the person.",
               "type": "string"
             }
@@ -464,6 +481,7 @@
       ]
     },
     "personOrList": {
+      "title": "Person or List",
       "oneOf": [
         {
           "$ref": "#/definitions/person"

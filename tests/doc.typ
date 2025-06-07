@@ -1,0 +1,1 @@
+#bibliography("haya.yml", full: true, style: "modern-humanities-research-association")
