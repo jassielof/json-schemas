@@ -99,16 +99,16 @@
       "properties": {
         "type": {
           "$ref": "#/definitions/entryType",
-          "title": "Type of the entry"
+          "title": "Type"
         },
         "title": {
           "title": "Title",
           "description": "The title of this entry.",
           "$ref": "#/definitions/formattableString",
           "examples": [
-            "Rick Astley: How An Internet Joke Revived My Career",
+            "\"Rick Astley: How An Internet Joke Revived My Career\"",
             {
-              "value": "Rick Astley: How An Internet Joke Revived My Career",
+              "value": "\"Rick Astley: How An Internet Joke Revived My Career\"",
               "short": "Rick Astley",
               "verbatim": false
             }
@@ -145,11 +145,13 @@
           ]
         },
         "genre": {
+          "title": "Genre",
           "description": "The type, class, or subtype of the item (e.g. \"Doctoral dissertation\" for a PhD thesis; \"NIH Publication\" for an NIH technical report). This field is not intended for topical descriptions or categories (e.g. \"adventure\" for an adventure movie).",
           "$ref": "#/definitions/formattableString",
           "examples": ["Doctoral dissertation"]
         },
         "editor": {
+          "title": "Editor",
           "description": "The person or people responsible for selecting and revising the content of the entry.",
           "$ref": "#/definitions/personOrList"
         },
@@ -158,67 +160,81 @@
           "$ref": "#/definitions/affiliatedList"
         },
         "call-number": {
+          "title": "Call Number",
           "description": "The number of the item in a library, institution, or collection. Use with the `archive` field.",
           "$ref": "#/definitions/formattableString",
           "examples": ["F16 D14"]
         },
         "publisher": {
+          "title": "Publisher",
           "description": "The name of the publisher. The publisher's location also be included.",
           "$ref": "#/definitions/publisher"
         },
         "location": {
+          "title": "Location",
           "description": "The location at which the entry is physically located or took place. For the location where an item was published, use the `publisher` field instead.",
           "$ref": "#/definitions/formattableString",
           "examples": ["Lahore, Pakistan"]
         },
         "organization": {
+          "title": "Organization",
           "description": "The organization at/for which the entry was produced.",
           "$ref": "#/definitions/formattableString",
           "examples": ["Technische Universität Berlin"]
         },
         "issue": {
+          "title": "Issue",
           "description": "For an entry whose parent has multiple issues, this field identifies to which specific issue the entry belongs. Also used to indicate the episode number for TV series.",
           "$ref": "#/definitions/numericOrString",
           "examples": [5]
         },
         "volume": {
+          "title": "Volume",
           "description": "For an entry whose parent has multiple volumes, parts, seasons, etc., this field identifies to which specific volume the entry belongs.",
           "$ref": "#/definitions/numericOrString",
           "examples": ["2-3"]
         },
         "volume-total": {
+          "title": "Volume Total",
           "description": "The total number of volumes, parts, seasons, etc., in the series that contains this entry.",
           "type": "integer",
           "examples": [12]
         },
         "edition": {
+          "title": "Edition",
           "description": "The published version of the entry.",
           "examples": ["expanded and revised edition", "second", 2],
           "$ref": "#/definitions/numericOrString"
         },
         "page-range": {
+          "title": "Page Range",
           "description": "The range of pages within that this entry occupies within the parent.",
           "$ref": "#/definitions/numericOrString",
           "examples": ["812-847"]
         },
         "page-total": {
+          "title": "Page Total",
           "description": "The total number of pages in the entry.",
           "type": "integer",
           "examples": [768]
         },
         "time-range": {
+          "title": "Time Range",
           "description": "The time range within the parent at which this entry starts and ends.",
           "$ref": "#/definitions/timestampRange"
         },
         "runtime": {
+          "title": "Runtime",
           "description": "The total runtime of the entry.",
           "$ref": "#/definitions/timestamp"
         },
         "url": {
+          "title": "URL",
           "description": "The canonical public URL of the entry, which may include an access date.",
           "$ref": "#/definitions/url"
         },
         "serial-number": {
+          "title": "Serial Number",
           "description": "Any serial number, including article numbers, associated with the entry. If you have serial numbers of well-known schemes like `doi`, you should put them into the serial number as a dictionary. Hayagriva will recognize and specially treat `doi`, `isbn`, `issn`, `pmid`, `pmcid`, and `arxiv`. You can also include `serial` for the serial number when you provide other formats as well.",
           "$ref": "#/definitions/serialNumber"
         },
@@ -258,9 +274,13 @@
           "type": "object",
           "properties": {
             "name": {
+              "title": "Publisher Name",
+              "description": "The name of the publisher.",
               "type": "string"
             },
             "location": {
+              "title": "Publisher Location",
+              "description": "The location of the publisher.",
               "type": "string"
             }
           },
@@ -403,13 +423,16 @@
           "type": "object",
           "properties": {
             "value": {
+              "title": "Value",
               "type": "string"
             },
             "verbatim": {
+              "title": "Verbatim",
               "description": "If true, disables text case transformations.",
               "type": "boolean"
             },
             "short": {
+              "title": "Short Form",
               "description": "A short form that a citation style can choose to render over the longer form.",
               "type": "string"
             }
@@ -559,10 +582,12 @@
           "type": "object",
           "properties": {
             "value": {
+              "title": "URL Value",
               "description": "The URL value.",
               "type": "string"
             },
             "date": {
+              "title": "Access Date",
               "description": "The access date of the URL.",
               "$ref": "#/definitions/date"
             }
@@ -580,6 +605,7 @@
       ]
     },
     "serialNumber": {
+      "$comment": "Typst allows these to be numbers, docs are inconsistent (strings).",
       "description": "Any serial number, including article numbers. If you have serial numbers of well-known schemes like `doi`, you should put them into the serial number as a dictionary. Hayagriva will recognize and specially treat `doi`, `isbn`, `issn`, `pmid`, `pmcid`, and `arxiv`. You can also include `serial` for the serial number when you provide other formats as well.",
       "oneOf": [
         {
@@ -588,39 +614,46 @@
         {
           "type": "object",
           "examples": [
-            "2003.13722",
+            "\"2003.13722\"",
             {
-              "doi": "10.22541/au.148771883.35456290",
-              "arxiv": "1906.00356",
-              "serial": "8516"
+              "doi": "\"10.22541/au.148771883.35456290\"",
+              "arxiv": "\"1906.00356\"",
+              "serial": "\"8516\""
             }
           ],
           "properties": {
             "doi": {
+              "title": "DOI",
               "description": "Digital Object Identifier.",
               "type": "string"
             },
             "isbn": {
+              "title": "ISBN",
               "description": "International Standard Book Number.",
               "type": "string"
             },
             "issn": {
+              "title": "ISSN",
               "description": "International Standard Serial Number.",
               "type": "string"
             },
             "pmid": {
+              "title": "PMID",
               "description": "PubMed Identifier.",
               "type": "string"
             },
             "pmcid": {
+              "title": "PMCID",
               "description": "PubMed Central Identifier.",
               "type": "string"
             },
             "arxiv": {
+              "title": "arXiv",
               "description": "arXiv Identifier.",
               "type": "string"
             },
             "serial": {
+              "title": "Serial Number",
               "description": "Serial number.",
               "type": "string"
             }

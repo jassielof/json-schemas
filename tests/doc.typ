@@ -1,1 +1,3 @@
-#bibliography("haya.yml", full: true, style: "modern-humanities-research-association")
+
+Hola@ArtOfProgramming
+#bibliography("haya.yml", full: true, style: "chicago-author-date")
