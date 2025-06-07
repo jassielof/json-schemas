@@ -21,6 +21,9 @@ const schemaVersions = new Map([
   ["2020-12", "Draft 2020-12"],
 ]);
 
+// Add API response caching at the top
+const apiCache = new Map();
+
 /**
  * Initialize the schema loader
  */
@@ -65,6 +68,10 @@ async function fetchSchemaFiles() {
   const { owner, repo, path, fileExtension } = config;
   const apiUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
+  if (apiCache.has(apiUrl)) {
+    return apiCache.get(apiUrl);
+  }
+
   const response = await fetch(apiUrl);
   if (!response.ok) {
     throw new Error(`GitHub API error: ${response.status}`);
@@ -80,6 +87,7 @@ async function fetchSchemaFiles() {
     throw new Error(`No schema files found with extension ${fileExtension}`);
   }
 
+  apiCache.set(apiUrl, schemaFiles);
   return schemaFiles;
 }
 
@@ -106,20 +114,31 @@ function getSchemaVersion(schemaUrl) {
  * @param {HTMLElement} container - Container to render into
  */
 async function renderSchemaList(schemaFiles, container) {
-  container.innerHTML = ""; // Clear any existing content
+  container.innerHTML = "";
 
-  for (const file of schemaFiles) {
+  const schemaPromises = schemaFiles.map(async (file) => {
     try {
       const schemaData = await fetchSchemaData(file.download_url);
-      const schemaRow = createSchemaRow(file, schemaData);
-      container.appendChild(schemaRow);
+      return { file, schemaData, error: null };
     } catch (error) {
-      const errorRow = createErrorRow(file.name, error.message);
-      container.appendChild(errorRow);
-      console.error(`Error processing schema ${file.name}:`, error);
+      return { file, schemaData: null, error };
     }
-  }
+  });
+
+  const results = await Promise.all(schemaPromises);
+
+  // Use DocumentFragment for better DOM performance
+  const fragment = document.createDocumentFragment();
+  results.forEach(({ file, schemaData, error }) => {
+    const row = error
+      ? createErrorRow(file.name, error.message)
+      : createSchemaRow(file, schemaData);
+    fragment.appendChild(row);
+  });
+  container.appendChild(fragment);
 }
+
+const schemaCache = new Map();
 
 /**
  * Fetch and parse an individual schema file
@@ -127,11 +146,18 @@ async function renderSchemaList(schemaFiles, container) {
  * @returns {Promise<Object>} Parsed schema data
  */
 async function fetchSchemaData(url) {
+  if (schemaCache.has(url)) {
+    return schemaCache.get(url);
+  }
+
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Failed to fetch schema: ${response.status}`);
   }
-  return response.json();
+
+  const data = await response.json();
+  schemaCache.set(url, data);
+  return data;
 }
 
 /**
@@ -172,12 +198,19 @@ function createSchemaRow(file, schemaData) {
   const copyButton = document.createElement("button");
   copyButton.type = "button";
   copyButton.textContent = "Copy URL";
-  copyButton.style.marginLeft = "0.5em";
+  copyButton.style.minWidth = "80px"; // Prevents button jumping
   copyButton.addEventListener("click", () => {
-    navigator.clipboard.writeText(pagesUrl).then(() => {
-      copyButton.textContent = "Copied!";
-      setTimeout(() => (copyButton.textContent = "Copy URL"), 1200);
-    });
+    navigator.clipboard
+      .writeText(pagesUrl)
+      .then(() => {
+        copyButton.textContent = "Copied!";
+        setTimeout(() => (copyButton.textContent = "Copy URL"), 1200);
+      })
+      .catch(() => {
+        // Fallback for older browsers
+        copyButton.textContent = "Failed";
+        setTimeout(() => (copyButton.textContent = "Copy URL"), 1200);
+      });
   });
 
   actionsCell.appendChild(copyButton);

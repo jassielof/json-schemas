@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/typst/hayagriva/main/hayagriva.schema.json",
-  "title": "Hayagriva Bibliography Format",
+  "$id": "https://jassielof.github.io/json-schemas/docs/hayagriva.schema.json",
+  "title": "Hayagriva",
   "type": "object",
   "description": "A bibliography management format for the modern age.",
   "additionalProperties": {
@@ -42,10 +42,7 @@
             {
               "type": "Anthology",
               "title": "Automata studies",
-              "editor": [
-                "Shannon, Claude E.",
-                "McCarthy, John"
-              ]
+              "editor": ["Shannon, Claude E.", "McCarthy, John"]
             }
           ]
         },
@@ -59,9 +56,7 @@
         "genre": {
           "description": "The type, class, or subtype of the item (e.g. \"Doctoral dissertation\" for a PhD thesis; \"NIH Publication\" for an NIH technical report). This field is not intended for topical descriptions or categories (e.g. \"adventure\" for an adventure movie).",
           "$ref": "#/definitions/formattableString",
-          "examples": [
-            "Doctoral dissertation"
-          ]
+          "examples": ["Doctoral dissertation"]
         },
         "editor": {
           "description": "The person or people responsible for selecting and revising the content of the entry.",
@@ -74,9 +69,7 @@
         "call-number": {
           "description": "The number of the item in a library, institution, or collection. Use with the `archive` field.",
           "$ref": "#/definitions/formattableString",
-          "examples": [
-            "F16 D14"
-          ]
+          "examples": ["F16 D14"]
         },
         "publisher": {
           "description": "The name of the publisher. The publisher's location also be included.",
@@ -85,60 +78,42 @@
         "location": {
           "description": "The location at which the entry is physically located or took place. For the location where an item was published, use the `publisher` field instead.",
           "$ref": "#/definitions/formattableString",
-          "examples": [
-            "Lahore, Pakistan"
-          ]
+          "examples": ["Lahore, Pakistan"]
         },
         "organization": {
           "description": "The organization at/for which the entry was produced.",
           "$ref": "#/definitions/formattableString",
-          "examples": [
-            "Technische Universität Berlin"
-          ]
+          "examples": ["Technische Universität Berlin"]
         },
         "issue": {
           "description": "For an entry whose parent has multiple issues, this field identifies to which specific issue the entry belongs. Also used to indicate the episode number for TV series.",
           "$ref": "#/definitions/numericOrString",
-          "examples": [
-            5
-          ]
+          "examples": [5]
         },
         "volume": {
           "description": "For an entry whose parent has multiple volumes, parts, seasons, etc., this field identifies to which specific volume the entry belongs.",
           "$ref": "#/definitions/numericOrString",
-          "examples": [
-            "2-3"
-          ]
+          "examples": ["2-3"]
         },
         "volume-total": {
           "description": "The total number of volumes, parts, seasons, etc., in the series that contains this entry.",
           "type": "integer",
-          "examples": [
-            12
-          ]
+          "examples": [12]
         },
         "edition": {
           "description": "The published version of the entry.",
-          "examples": [
-            "expanded and revised edition",
-            "second",
-            2
-          ],
+          "examples": ["expanded and revised edition", "second", 2],
           "$ref": "#/definitions/numericOrString"
         },
         "page-range": {
           "description": "The range of pages within that this entry occupies within the parent.",
           "$ref": "#/definitions/numericOrString",
-          "examples": [
-            "812-847"
-          ]
+          "examples": ["812-847"]
         },
         "page-total": {
           "description": "The total number of pages in the entry.",
           "type": "integer",
-          "examples": [
-            768
-          ]
+          "examples": [768]
         },
         "time-range": {
           "description": "The time range within the parent at which this entry starts and ends.",
@@ -163,23 +138,17 @@
         "archive": {
           "description": "The name of the institution/collection where the entry is kept.",
           "$ref": "#/definitions/formattableString",
-          "examples": [
-            "National Library of New Zealand"
-          ]
+          "examples": ["National Library of New Zealand"]
         },
         "archive-location": {
           "description": "The location of the institution/collection where the entry is kept.",
           "$ref": "#/definitions/formattableString",
-          "examples": [
-            "Wellington, New Zealand"
-          ]
+          "examples": ["Wellington, New Zealand"]
         },
         "note": {
           "description": "A short markup, decoration, or annotation to the entry (e.g., to indicate items included in a review).",
           "$ref": "#/definitions/formattableString",
-          "examples": [
-            "microfilm version"
-          ]
+          "examples": ["microfilm version"]
         }
       },
       "examples": [
@@ -206,11 +175,7 @@
           "kinetics": {
             "type": "Article",
             "title": "Kinetics and luminescence of the excitations of a nonequilibrium polariton condensate",
-            "author": [
-              "Doan, T. D.",
-              "Tran Thoai, D. B.",
-              "Haug, Hartmut"
-            ],
+            "author": ["Doan, T. D.", "Tran Thoai, D. B.", "Haug, Hartmut"],
             "serial-number": {
               "doi": "10.1103/PhysRevB.102.165126"
             },
@@ -228,10 +193,7 @@
         {
           "wwdc-network": {
             "type": "Article",
-            "author": [
-              "Mehta, Jiten",
-              "Kinnear, Eric"
-            ],
+            "author": ["Mehta, Jiten", "Kinnear, Eric"],
             "title": "Boost Performance and Security with Modern Networking",
             "date": "2020-06-26",
             "parent": [
@@ -272,9 +234,7 @@
           }
         }
       ],
-      "required": [
-        "type"
-      ],
+      "required": ["type"],
       "additionalProperties": false
     },
     "publisher": {
@@ -292,9 +252,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "name"
-          ],
+          "required": ["name"],
           "additionalProperties": false
         }
       ],
@@ -386,10 +344,7 @@
             "$ref": "#/definitions/personOrList"
           }
         },
-        "required": [
-          "role",
-          "names"
-        ],
+        "required": ["role", "names"],
         "additionalProperties": false
       },
       "uniqueItems": true
@@ -440,16 +395,10 @@
             }
           },
           "dependencies": {
-            "verbatim": [
-              "value"
-            ],
-            "short": [
-              "value"
-            ]
+            "verbatim": ["value"],
+            "short": ["value"]
           },
-          "required": [
-            "value"
-          ],
+          "required": ["value"],
           "additionalProperties": false
         }
       ]
@@ -501,9 +450,7 @@
               "alias": "Ursula K. Le Guin"
             }
           ],
-          "required": [
-            "name"
-          ],
+          "required": ["name"],
           "additionalProperties": false
         }
       ]
@@ -524,11 +471,7 @@
     },
     "date": {
       "description": "A calendar date in ISO 8601 format.",
-      "examples": [
-        2025,
-        "2025-12-31",
-        "2025-12"
-      ],
+      "examples": [2025, "2025-12-31", "2025-12"],
       "anyOf": [
         {
           "type": "integer",
@@ -605,9 +548,7 @@
               "date": "2020-12-29"
             }
           ],
-          "required": [
-            "value"
-          ],
+          "required": ["value"],
           "additionalProperties": false
         }
       ]
@@ -616,10 +557,7 @@
       "description": "Any serial number, including article numbers. If you have serial numbers of well-known schemes like `doi`, you should put them into the serial number as a dictionary. Hayagriva will recognize and specially treat `doi`, `isbn`, `issn`, `pmid`, `pmcid`, and `arxiv`. You can also include `serial` for the serial number when you provide other formats as well.",
       "oneOf": [
         {
-          "type": [
-            "string",
-            "number"
-          ]
+          "type": ["string", "number"]
         },
         {
           "type": "object",
@@ -668,9 +606,7 @@
     "language": {
       "description": "The Language of the entry.",
       "$comment": "Unicode Language Identifier (BCP 47).",
-      "examples": [
-        "zh-Hans"
-      ],
+      "examples": ["zh-Hans"],
       "type": "string",
       "pattern": "^[a-z]{2,3}(-[A-Z][a-z]{3,4})?(-[A-Z]{2})?$"
     }
