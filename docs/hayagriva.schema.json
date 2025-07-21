@@ -6,7 +6,7 @@
   "description": "A bibliography management format for the modern age.",
   "markdownDescription": "A bibliography management format for the modern age. It is designed to be simple, flexible, and easy to use, while still being powerful enough to handle complex bibliographic data.",
   "additionalProperties": {
-    "$ref": "#/definitions/entry"
+    "$ref": "#/definitions/topLevelEntry"
   },
   "examples": [
     {
@@ -92,6 +92,16 @@
     }
   ],
   "definitions": {
+    "topLevelEntry": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/entry"
+        },
+        {
+          "required": ["type"]
+        }
+      ]
+    },
     "entry": {
       "title": "Bibliography Entry",
       "type": "object",
@@ -99,7 +109,8 @@
       "properties": {
         "type": {
           "$ref": "#/definitions/entryType",
-          "title": "Type"
+          "title": "Type",
+          "default": "misc"
         },
         "title": {
           "title": "Title",
@@ -262,7 +273,6 @@
           "examples": ["microfilm version"]
         }
       },
-      "required": ["type"],
       "additionalProperties": false
     },
     "publisher": {
