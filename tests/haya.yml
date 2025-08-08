@@ -5,6 +5,14 @@ CleanCode:
   language: en-US
   title: Clean Code
 
+NestedParentEntry:
+  type: book
+  title: "Rick Astley: How An Internet Joke Revived My Career"
+  
+  parent:
+    - abstract: fewjioewf
+    - title: few
+
 ArtOfProgramming:
   type: report
   date: 1920-01-01
