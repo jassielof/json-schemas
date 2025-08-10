@@ -1,10 +1,12 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://jassielof.github.io/json-schemas/docs/hayagriva.schema.json",
+  "$id": "https://json.schemastore.org/hayagriva.json",
   "title": "Hayagriva",
   "type": "object",
   "description": "A bibliography management format for the modern age.",
-  "markdownDescription": "A bibliography management format for the modern age. It is designed to be simple, flexible, and easy to use, while still being powerful enough to handle complex bibliographic data.",
+  "propertyNames": {
+    "type": "string"
+  },
   "additionalProperties": {
     "$ref": "#/definitions/topLevelEntry"
   },
@@ -113,9 +115,9 @@
           "default": "misc"
         },
         "title": {
+          "$ref": "#/definitions/formattableString",
           "title": "Title",
           "description": "The title of this entry.",
-          "$ref": "#/definitions/formattableString",
           "examples": [
             "\"Rick Astley: How An Internet Joke Revived My Career\"",
             {
@@ -126,19 +128,19 @@
           ]
         },
         "author": {
+          "$ref": "#/definitions/personOrList",
           "title": "Author",
-          "description": "The person or people primarily responsible for the creation of this entry.",
-          "$ref": "#/definitions/personOrList"
+          "description": "The person or people primarily responsible for the creation of this entry."
         },
         "date": {
+          "$ref": "#/definitions/date",
           "title": "Date",
-          "description": "The date of publication or creation of this entry.",
-          "$ref": "#/definitions/date"
+          "description": "The date of publication or creation of this entry."
         },
         "parent": {
+          "$ref": "#/definitions/parentOrArray",
           "title": "Parent Entry",
           "description": "Entry in which the current entry was published, or to which it is strongly associated.",
-          "$ref": "#/definitions/parentOrArray",
           "examples": [
             {
               "type": "Anthology",
@@ -148,61 +150,61 @@
           ]
         },
         "abstract": {
+          "$ref": "#/definitions/formattableString",
           "title": "Abstract",
           "description": "The abstract or summary of the entry.",
-          "$ref": "#/definitions/formattableString",
           "examples": [
             "The dominant sequence transduction models are based on complex..."
           ]
         },
         "genre": {
+          "$ref": "#/definitions/formattableString",
           "title": "Genre",
           "description": "The type, class, or subtype of the item (e.g. \"Doctoral dissertation\" for a PhD thesis; \"NIH Publication\" for an NIH technical report). This field is not intended for topical descriptions or categories (e.g. \"adventure\" for an adventure movie).",
-          "$ref": "#/definitions/formattableString",
           "examples": ["Doctoral dissertation"]
         },
         "editor": {
+          "$ref": "#/definitions/personOrList",
           "title": "Editor",
-          "description": "The person or people responsible for selecting and revising the content of the entry.",
-          "$ref": "#/definitions/personOrList"
+          "description": "The person or people responsible for selecting and revising the content of the entry."
         },
         "affiliated": {
-          "description": "The people involved with the entry that do not fit `author` or `editor` roles.",
-          "$ref": "#/definitions/affiliatedList"
+          "$ref": "#/definitions/affiliatedList",
+          "description": "The people involved with the entry that do not fit `author` or `editor` roles."
         },
         "call-number": {
+          "$ref": "#/definitions/formattableString",
           "title": "Call Number",
           "description": "The number of the item in a library, institution, or collection. Use with the `archive` field.",
-          "$ref": "#/definitions/formattableString",
           "examples": ["F16 D14"]
         },
         "publisher": {
+          "$ref": "#/definitions/publisher",
           "title": "Publisher",
-          "description": "The name of the publisher. The publisher's location also be included.",
-          "$ref": "#/definitions/publisher"
+          "description": "The name of the publisher. The publisher's location also be included."
         },
         "location": {
+          "$ref": "#/definitions/formattableString",
           "title": "Location",
           "description": "The location at which the entry is physically located or took place. For the location where an item was published, use the `publisher` field instead.",
-          "$ref": "#/definitions/formattableString",
           "examples": ["Lahore, Pakistan"]
         },
         "organization": {
+          "$ref": "#/definitions/formattableString",
           "title": "Organization",
           "description": "The organization at/for which the entry was produced.",
-          "$ref": "#/definitions/formattableString",
           "examples": ["Technische Universität Berlin"]
         },
         "issue": {
+          "$ref": "#/definitions/numericOrString",
           "title": "Issue",
           "description": "For an entry whose parent has multiple issues, this field identifies to which specific issue the entry belongs. Also used to indicate the episode number for TV series.",
-          "$ref": "#/definitions/numericOrString",
           "examples": [5]
         },
         "volume": {
+          "$ref": "#/definitions/numericOrString",
           "title": "Volume",
           "description": "For an entry whose parent has multiple volumes, parts, seasons, etc., this field identifies to which specific volume the entry belongs.",
-          "$ref": "#/definitions/numericOrString",
           "examples": ["2-3"]
         },
         "volume-total": {
@@ -212,15 +214,15 @@
           "examples": [12]
         },
         "edition": {
+          "$ref": "#/definitions/numericOrString",
           "title": "Edition",
           "description": "The published version of the entry.",
-          "examples": ["expanded and revised edition", "second", 2],
-          "$ref": "#/definitions/numericOrString"
+          "examples": ["expanded and revised edition", "second", 2]
         },
         "page-range": {
+          "$ref": "#/definitions/numericOrString",
           "title": "Page Range",
           "description": "The range of pages within that this entry occupies within the parent.",
-          "$ref": "#/definitions/numericOrString",
           "examples": ["812-847"]
         },
         "page-total": {
@@ -230,46 +232,46 @@
           "examples": [768]
         },
         "time-range": {
+          "$ref": "#/definitions/timestampRange",
           "title": "Time Range",
-          "description": "The time range within the parent at which this entry starts and ends.",
-          "$ref": "#/definitions/timestampRange"
+          "description": "The time range within the parent at which this entry starts and ends."
         },
         "runtime": {
+          "$ref": "#/definitions/timestamp",
           "title": "Runtime",
-          "description": "The total runtime of the entry.",
-          "$ref": "#/definitions/timestamp"
+          "description": "The total runtime of the entry."
         },
         "url": {
+          "$ref": "#/definitions/url",
           "title": "URL",
-          "description": "The canonical public URL of the entry, which may include an access date.",
-          "$ref": "#/definitions/url"
+          "description": "The canonical public URL of the entry, which may include an access date."
         },
         "serial-number": {
+          "$ref": "#/definitions/serialNumber",
           "title": "Serial Number",
-          "description": "Any serial number, including article numbers, associated with the entry. If you have serial numbers of well-known schemes like `doi`, you should put them into the serial number as a dictionary. Hayagriva will recognize and specially treat `doi`, `isbn`, `issn`, `pmid`, `pmcid`, and `arxiv`. You can also include `serial` for the serial number when you provide other formats as well.",
-          "$ref": "#/definitions/serialNumber"
+          "description": "Any serial number, including article numbers, associated with the entry. If you have serial numbers of well-known schemes like `doi`, you should put them into the serial number as a dictionary. Hayagriva will recognize and specially treat `doi`, `isbn`, `issn`, `pmid`, `pmcid`, and `arxiv`. You can also include `serial` for the serial number when you provide other formats as well."
         },
         "language": {
+          "$ref": "#/definitions/language",
           "title": "Language",
-          "description": "The language of the entry.",
-          "$ref": "#/definitions/language"
+          "description": "The language of the entry."
         },
         "archive": {
+          "$ref": "#/definitions/formattableString",
           "title": "Archive",
           "description": "The name of the institution/collection where the entry is kept.",
-          "$ref": "#/definitions/formattableString",
           "examples": ["National Library of New Zealand"]
         },
         "archive-location": {
+          "$ref": "#/definitions/formattableString",
           "title": "Archive Location",
           "description": "The location of the institution/collection where the entry is kept.",
-          "$ref": "#/definitions/formattableString",
           "examples": ["Wellington, New Zealand"]
         },
         "note": {
+          "$ref": "#/definitions/formattableString",
           "title": "Note",
           "description": "A short markup, decoration, or annotation to the entry (e.g., to indicate items included in a review).",
-          "$ref": "#/definitions/formattableString",
           "examples": ["microfilm version"]
         }
       },
@@ -307,12 +309,12 @@
       ]
     },
     "entryType": {
+      "$comment": "Typst supports case insensitive for the first letter, but the rest must be lowercase.",
       "type": "string",
       "title": "Entry Type",
       "description": "The media type of the entry. Often determines the structure of references.",
       "default": "misc",
       "pattern": "^(?:[Aa]rticle|[Cc]hapter|[Ee]ntry|[Aa]nthos|[Rr]eport|[Tt]hesis|[Ww]eb|[Ss]cene|[Aa]rtwork|[Pp]atent|[Cc]ase|[Nn]ewspaper|[Ll]egislation|[Mm]anuscript|[Oo]riginal|[Pp]ost|[Mm]isc|[Pp]erformance|[Pp]eriodical|[Pp]roceedings|[Bb]ook|[Bb]log|[Rr]eference|[Cc]onference|[Aa]nthology|[Rr]epository|[Tt]hread|[Vv]ideo|[Aa]udio|[Ee]xhibition)$",
-      "$comment": "Typst supports case insensitive for the first letter, but the rest must be lowercase.",
       "examples": [
         "article",
         "chapter",
@@ -383,14 +385,14 @@
         "type": "object",
         "properties": {
           "role": {
+            "$ref": "#/definitions/roleType",
             "title": "Role",
-            "description": "The role of the person or people in relation to the entry.",
-            "$ref": "#/definitions/roleType"
+            "description": "The role of the person or people in relation to the entry."
           },
           "names": {
+            "$ref": "#/definitions/personOrList",
             "title": "People Involved",
-            "description": "The name(s) of the person or people involved in the role.",
-            "$ref": "#/definitions/personOrList"
+            "description": "The name(s) of the person or people involved in the role."
           }
         },
         "required": ["role", "names"],
@@ -399,8 +401,8 @@
       "uniqueItems": true
     },
     "roleType": {
-      "type": "string",
       "$comment": "Typst only supports case sensitive roles, the docs are inconsistent with this.",
+      "type": "string",
       "enum": [
         "translator",
         "afterword",
@@ -538,8 +540,8 @@
           "description": "Shortened date for year only."
         },
         {
-          "type": "string",
           "$comment": "ISO 8601 date format (YYYY-MM-DD | YYYY-MM | YYYY).",
+          "type": "string",
           "pattern": "^([+-~]?\\d{4,})(-(0[1-9]|1[0-2])(-(0[1-9]|[12][0-9]|3[01]))?)?$"
         }
       ]
@@ -597,9 +599,9 @@
               "type": "string"
             },
             "date": {
+              "$ref": "#/definitions/date",
               "title": "Access Date",
-              "description": "The access date of the URL.",
-              "$ref": "#/definitions/date"
+              "description": "The access date of the URL."
             }
           },
           "examples": [
@@ -673,8 +675,8 @@
       ]
     },
     "language": {
-      "description": "The Language of the entry.",
       "$comment": "Unicode Language Identifier (BCP 47).",
+      "description": "The Language of the entry.",
       "examples": [
         "zh-Hans",
         "en-US",
