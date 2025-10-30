@@ -188,10 +188,6 @@ function createSchemaRow(file, schemaData) {
   descriptionCell.textContent =
     schemaData.description || "No description provided";
 
-  // Version cell
-  const versionCell = document.createElement("td");
-  versionCell.textContent = getSchemaVersion(schemaData.$schema);
-
   // Actions cell
   const actionsCell = document.createElement("td");
 
@@ -217,7 +213,6 @@ function createSchemaRow(file, schemaData) {
   // Append all cells to the row
   row.appendChild(nameCell);
   row.appendChild(descriptionCell);
-  row.appendChild(versionCell);
   row.appendChild(actionsCell);
 
   return row;
@@ -236,7 +231,7 @@ function createErrorRow(fileName, errorMessage) {
   nameCell.textContent = fileName;
 
   const errorCell = document.createElement("td");
-  errorCell.colSpan = 3;
+  errorCell.colSpan = 2;
   errorCell.textContent = `Error loading schema: ${errorMessage}`;
 
   row.appendChild(nameCell);
@@ -253,7 +248,7 @@ function createErrorRow(fileName, errorMessage) {
 function renderError(error, container) {
   const row = document.createElement("tr");
   const cell = document.createElement("td");
-  cell.colSpan = 4;
+  cell.colSpan = 3;
   cell.textContent = `Error loading schemas: ${error.message}. Make sure the repository is public and contains schema files.`;
   row.appendChild(cell);
   container.innerHTML = "";
