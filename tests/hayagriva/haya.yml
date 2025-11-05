@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=../docs/hayagriva.schema.json
+# yaml-language-server: $schema=../../docs/hayagriva.schema.json
 CleanCode:
   type: book
   abstract: The dominant sequence transduction models are based on complex...
@@ -8,7 +8,7 @@ CleanCode:
 NestedParentEntry:
   type: book
   title: "Rick Astley: How An Internet Joke Revived My Career"
-  
+
   parent:
     - abstract: fewjioewf
     - title: few
