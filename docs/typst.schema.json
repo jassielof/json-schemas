@@ -229,7 +229,11 @@
   "allOf": [
     {
       "if": {
-        "properties": { "template": { "type": "object" } },
+        "properties": {
+          "template": {
+            "type": "object"
+          }
+        },
         "required": ["template"]
       },
       "then": {
@@ -246,12 +250,24 @@
               "categories"
             ],
             "properties": {
-              "name": { "type": "string" },
-              "version": { "type": "string" },
-              "entrypoint": { "type": "string" },
-              "authors": { "type": "array" },
-              "license": { "type": "string" },
-              "description": { "type": "string" },
+              "name": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              },
+              "entrypoint": {
+                "type": "string"
+              },
+              "authors": {
+                "type": "array"
+              },
+              "license": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
               "categories": {
                 "type": "array",
                 "minItems": 1
