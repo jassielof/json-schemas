@@ -5,7 +5,7 @@
     "build": "bun scripts/build.js",
     "validate": "bun run build && ajv compile -s 'docs/*.schema.json' --spec=draft7 --strict=true --all-errors -c ajv-formats",
     "test": "bun run build && ajv test -s 'docs/*.schema.json' -d 'test/**/valid/*.json' --valid --spec=draft7 -c ajv-formats || true && ajv test -s 'docs/*.schema.json' -d 'test/**/invalid/*.json' --invalid --spec=draft7 -c ajv-formats || true",
-    "lint": "bun run build && ajv compile -s docs/*.schema.json --spec=draft7 --strict=true --all-errors --strict-types -c ajv-formats",
+    "lint": "bun run build && ajv compile -s 'docs/*.schema.json' --spec=draft7 --strict=true --all-errors --strict-types -c ajv-formats",
     "format": "prettier --write 'docs/*.schema.json'"
   },
   "devDependencies": {

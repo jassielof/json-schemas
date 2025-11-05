@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=../../docs/hayagriva.schema.json
+# yaml-language-server: $schema=../../../docs/hayagriva.schema.json
 CleanCode:
   type: book
   abstract: The dominant sequence transduction models are based on complex...

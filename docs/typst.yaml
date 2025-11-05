@@ -1,5 +1,4 @@
-# yaml-language-server: $schema=https://json-schema.org/draft-07/schema#
-$schema: https://json-schema.org/draft-07/schema#
+$schema: http://json-schema.org/draft-07/schema#
 $id: https://jassielof.github.io/json-schemas/docs/typst.schema.json
 title: Typst Package Manifest
 description: |-
