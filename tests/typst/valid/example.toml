@@ -1,0 +1,9 @@
+#:schema ../../../docs/typst.schema.json
+
+[package]
+name = "example"
+version = "0.1.0"
+entrypoint = "lib.typ"
+authors = ["The Typst Project Developers"]
+license = "MIT"
+description = "Calculate elementary arithemtics with functions."

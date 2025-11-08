@@ -1,1 +1,7 @@
-#
+#:schema ../../../docs/typst.schema.json
+
+[package]
+name = "apa"
+version = "0.1.0"
+entrypoint = "lib.typ"
+
