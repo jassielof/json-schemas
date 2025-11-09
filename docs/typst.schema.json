@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://jassielof.github.io/json-schemas/docs/typst.schema.json",
   "title": "Typst Package Manifest",
-  "description": "Schema for typst.toml package manifest files, used by the Typst package manager and universe.\nhttps://github.com/typst/packages/blob/main/docs/manifest.md.",
+  "description": "Schema for typst.toml package manifest files, used by the Typst package manager and universe.\nhttps://github.com/typst/packages/blob/main/docs/manifest.md",
   "type": "object",
   "required": [
     "package"
@@ -74,7 +74,9 @@
         },
         "description": {
           "type": "string",
-          "description": "A short, clear description of the package (one sentence recommended). Required for Typst Universe submission.\nSee [Writing a good description](https://github.com/typst/packages/blob/main/docs/manifest.md#writing-a-good-description)."
+          "description": "A short, clear description of the package (one sentence recommended). Required for Typst Universe submission.\nShould be 40-60 characters long, terminate with a full stop, avoid \"Typst\" unless relevant.\nSee [Writing a good description](https://github.com/typst/packages/blob/main/docs/manifest.md#writing-a-good-description).",
+          "minLength": 10,
+          "maxLength": 200
         },
         "homepage": {
           "type": "string",
@@ -96,7 +98,8 @@
           "type": "array",
           "description": "An array of search keywords for the package.",
           "items": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           },
           "minItems": 1,
           "uniqueItems": true,
@@ -206,12 +209,13 @@
             ],
             [
               "physics"
-            ]
+            ],
+            []
           ]
         },
         "compiler": {
           "type": "string",
-          "description": "The minimum Typst compiler version required for this package to work (SemVer format). Partial versions like '0' or '0.13' are supported. Pre-release tags are not supported.",
+          "description": "The minimum Typst compiler version required for this package to work (SemVer format).\nPartial versions like '0' or '0.13' are supported. Pre-release tags are not supported.",
           "pattern": "^(0|[1-9]\\d*)(\\.(0|[1-9]\\d*)){0,2}$",
           "examples": [
             "0",
@@ -222,10 +226,12 @@
         },
         "exclude": {
           "type": "array",
-          "description": "An array of globs specifying files that should not be part of the published bundle that the compiler downloads when importing the package. To be used for large support files like images or PDF documentation that would otherwise unnecessarily increase the bundle size. Don't exclude the README or the LICENSE.",
+          "description": "An array of globs specifying files that should not be part of the published bundle that the compiler downloads when importing the package.\nTo be used for large support files like images or PDF documentation that would otherwise unnecessarily increase the bundle size.\nDon't exclude the README or the LICENSE. Template thumbnails are automatically excluded.",
           "items": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           },
+          "uniqueItems": true,
           "examples": [
             [
               "docs/",
@@ -251,7 +257,7 @@
     },
     "template": {
       "type": "object",
-      "description": "If present, declares this package as a template.",
+      "description": "If present, declares this package as a template.\nTemplate packages must specify at least one category.",
       "required": [
         "path",
         "entrypoint",
@@ -261,6 +267,7 @@
         "path": {
           "type": "string",
           "description": "The directory within the package (relative to package root) containing files to be copied into the user's new project directory.",
+          "minLength": 1,
           "examples": [
             "template",
             "skeleton"
@@ -268,7 +275,9 @@
         },
         "entrypoint": {
           "type": "string",
-          "description": "Path relative to the template 'path' directory pointing to the main file to be compiled after initialization.",
+          "description": "Path relative to the template 'path' directory pointing to the main file to be compiled after initialization.\nThis file will become the previewed file in the Typst web application.",
+          "minLength": 1,
+          "pattern": ".*\\.typ$",
           "examples": [
             "main.typ",
             "report.typ"
@@ -276,8 +285,8 @@
         },
         "thumbnail": {
           "type": "string",
-          "description": "Path relative to the package root pointing to a PNG or lossless WebP thumbnail (min 1080px on longer edge, max 3MB) depicting the initialized template.",
-          "pattern": "^.*((png)|(webp))$",
+          "description": "Path relative to the package root pointing to a PNG or lossless WebP thumbnail.\nRequirements: min 1080px on longer edge, max 3 MiB file size.\n_The thumbnail will automatically be excluded from the package files._",
+          "pattern": "^.*\\.(png|webp)$",
           "examples": [
             "thumbnail.png",
             "preview.webp"
@@ -288,13 +297,21 @@
     },
     "tool": {
       "type": "object",
-      "description": "Namespace for third-party tools to store their own configuration.",
+      "description": "Namespace for third-party tools to store their own Typst-specific configuration.\nEach tool should create its own entry under this section.",
       "propertyNames": {
-        "type": "string"
+        "type": "string",
+        "minLength": 1
       },
       "additionalProperties": {
         "type": "object"
-      }
+      },
+      "examples": [
+        {
+          "mytool": {
+            "foo": "bar"
+          }
+        }
+      ]
     }
   },
   "additionalProperties": false,
