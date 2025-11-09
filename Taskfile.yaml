@@ -2,10 +2,40 @@ version: 3
 
 tasks:
   build:
-    cmd: bun run build
+    cmd: bun scripts/build.js
     desc: Build JSON Schemas
     watch: true
     sources:
       - docs/*.yaml
     generates:
+      - docs/*.json
+  lint:
+    deps:
+      - build
+    cmd: bun ajv compile -s 'docs/*.schema.json' --spec=draft7 --strict-types -c ajv-formats
+    sources:
+      - docs/*.json
+    generates:
+      - docs/*.json
+  validate:
+    deps:
+      - build
+    cmd: bun ajv compile -s 'docs/*.schema.json' --spec=draft7 --strict=true --all-errors -c ajv-formats
+    sources:
+      - docs/*.json
+    generates:
+      - docs/*.json
+  format:
+    deps:
+      - build
+    cmd: bun prettier --write 'docs/*.schema.json'
+    sources:
+      - docs/*.json
+    generates:
+      - docs/*.json
+  test:
+    deps:
+      - build
+    cmd: bun scripts/test.js
+    sources:
       - docs/*.json
