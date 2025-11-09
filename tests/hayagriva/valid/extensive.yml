@@ -1,0 +1,1110 @@
+# yaml-language-server: $schema=../../../docs/hayagriva.schema.json
+
+# ============================================================================
+# COMPREHENSIVE HAYAGRIVA TEST FILE
+# Tests all entry types, field types, and combinations
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# BASIC ENTRY TYPES - Testing each type with minimal required fields
+# ----------------------------------------------------------------------------
+
+minimal-article:
+  type: Article
+  title: Minimal Article Entry
+
+minimal-book:
+  type: Book
+  title: Minimal Book Entry
+
+minimal-chapter:
+  type: Chapter
+  title: Minimal Chapter Entry
+
+minimal-entry:
+  type: Entry
+  title: Minimal Entry
+
+minimal-anthos:
+  type: Anthos
+  title: Minimal Anthos Entry
+
+minimal-report:
+  type: Report
+  title: Minimal Report Entry
+
+minimal-thesis:
+  type: Thesis
+  title: Minimal Thesis Entry
+
+minimal-web:
+  type: Web
+  title: Minimal Web Entry
+
+minimal-scene:
+  type: Scene
+  title: Minimal Scene Entry
+
+minimal-artwork:
+  type: Artwork
+  title: Minimal Artwork Entry
+
+minimal-patent:
+  type: Patent
+  title: Minimal Patent Entry
+
+minimal-case:
+  type: Case
+  title: Minimal Case Entry
+
+minimal-newspaper:
+  type: Newspaper
+  title: Minimal Newspaper Entry
+
+minimal-legislation:
+  type: Legislation
+  title: Minimal Legislation Entry
+
+minimal-manuscript:
+  type: Manuscript
+  title: Minimal Manuscript Entry
+
+minimal-original:
+  type: Original
+  title: Minimal Original Entry
+
+minimal-post:
+  type: Post
+  title: Minimal Post Entry
+
+minimal-misc:
+  type: Misc
+  title: Minimal Misc Entry
+
+minimal-performance:
+  type: Performance
+  title: Minimal Performance Entry
+
+minimal-periodical:
+  type: Periodical
+  title: Minimal Periodical Entry
+
+minimal-proceedings:
+  type: Proceedings
+  title: Minimal Proceedings Entry
+
+minimal-blog:
+  type: Blog
+  title: Minimal Blog Entry
+
+minimal-reference:
+  type: Reference
+  title: Minimal Reference Entry
+
+minimal-conference:
+  type: Conference
+  title: Minimal Conference Entry
+
+minimal-anthology:
+  type: Anthology
+  title: Minimal Anthology Entry
+
+minimal-repository:
+  type: Repository
+  title: Minimal Repository Entry
+
+minimal-thread:
+  type: Thread
+  title: Minimal Thread Entry
+
+minimal-video:
+  type: Video
+  title: Minimal Video Entry
+
+minimal-audio:
+  type: Audio
+  title: Minimal Audio Entry
+
+minimal-exhibition:
+  type: Exhibition
+  title: Minimal Exhibition Entry
+
+# ----------------------------------------------------------------------------
+# TITLE FIELD - Testing all formattable string variations
+# ----------------------------------------------------------------------------
+
+title-simple-string:
+  type: Book
+  title: Simple String Title
+
+title-with-math:
+  type: Article
+  title: "The $E = mc^2$ Formula in Modern Physics"
+
+title-with-braces:
+  type: Book
+  title: '"{imagiNary} Publishing" and the Future'
+
+title-object-verbatim:
+  type: Report
+  title:
+    value: "UN World Food Programme Annual Report"
+    verbatim: true
+
+title-object-short:
+  type: Book
+  title:
+    value: "International Proceedings of Customs and Border Protection"
+    short: "Int. Proc. Customs"
+
+title-object-both:
+  type: Article
+  title:
+    value: "The {CRISPR} Technology Revolution"
+    short: CRISPR Tech
+    verbatim: false
+
+# ----------------------------------------------------------------------------
+# AUTHOR FIELD - Testing person variations
+# ----------------------------------------------------------------------------
+
+author-single-string:
+  type: Book
+  title: Single Author String
+  author: Doe, Jane
+
+author-single-with-prefix:
+  type: Book
+  title: Author with Prefix
+  author: von Neumann, John
+
+author-single-with-suffix:
+  type: Book
+  title: Author with Suffix
+  author: King, Martin Luther, Jr.
+
+author-organization:
+  type: Report
+  title: Organization as Author
+  author: UNICEF
+
+author-multiple-strings:
+  type: Article
+  title: Multiple Authors
+  author:
+    - Doe, Jane
+    - Smith, John
+    - Brown, Alice
+
+author-object-minimal:
+  type: Book
+  title: Author Object Minimal
+  author:
+    name: Watkins
+
+author-object-full:
+  type: Book
+  title: Author Object Full
+  author:
+    given-name: Gloria Jean
+    name: Watkins
+    alias: bell hooks
+    prefix: Dr.
+    suffix: PhD
+
+author-mixed-list:
+  type: Conference
+  title: Mixed Author List
+  author:
+    - Doe, Jane
+    - given-name: John
+      name: Smith
+    - von der Leyen, Ursula
+    - given-name: Marie
+      prefix: de
+      name: Curie
+      suffix: Nobel Laureate
+
+# ----------------------------------------------------------------------------
+# DATE FIELD - Testing all date formats
+# ----------------------------------------------------------------------------
+
+date-year-integer:
+  type: Book
+  title: Integer Year
+  date: 2025
+
+date-year-string:
+  type: Book
+  title: String Year
+  date: "2025"
+
+date-year-month:
+  type: Article
+  title: Year and Month
+  date: "2025-06"
+
+date-full:
+  type: Web
+  title: Full Date
+  date: "2025-11-09"
+
+date-bce:
+  type: Manuscript
+  title: Ancient Text
+  date: "-0100"
+
+date-year-zero:
+  type: Manuscript
+  title: Year 1 BCE
+  date: "0000"
+
+date-negative:
+  type: Artwork
+  title: Ancient Artwork
+  date: "-0500"
+
+date-with-tilde:
+  type: Manuscript
+  title: Approximate Date
+  date: "~1500"
+
+# ----------------------------------------------------------------------------
+# EDITOR FIELD - Testing variations
+# ----------------------------------------------------------------------------
+
+editor-single:
+  type: Anthology
+  title: Single Editor
+  editor: Shannon, Claude E.
+
+editor-multiple:
+  type: Book
+  title: Multiple Editors
+  editor:
+    - Shannon, Claude E.
+    - McCarthy, John
+    - Turing, Alan
+
+editor-object:
+  type: Reference
+  title: Editor as Object
+  editor:
+    given-name: Donald
+    name: Knuth
+    suffix: Professor Emeritus
+
+# ----------------------------------------------------------------------------
+# AFFILIATED FIELD - Testing all role types
+# ----------------------------------------------------------------------------
+
+affiliated-translator:
+  type: Book
+  title: Book with Translator
+  affiliated:
+    - role: translator
+      names: Smith, Jane
+
+affiliated-multiple-roles:
+  type: Book
+  title: Book with Multiple Roles
+  affiliated:
+    - role: translator
+      names:
+        - Smith, Jane
+        - Doe, John
+    - role: illustrator
+      names: Brown, Alice
+    - role: foreword
+      names:
+        given-name: Stephen
+        name: King
+
+affiliated-all-roles:
+  type: Book
+  title: Testing All Role Types
+  affiliated:
+    - role: translator
+      names: Person One
+    - role: afterword
+      names: Person Two
+    - role: foreword
+      names: Person Three
+    - role: introduction
+      names: Person Four
+    - role: annotator
+      names: Person Five
+    - role: commentator
+      names: Person Six
+    - role: holder
+      names: Person Seven
+    - role: compiler
+      names: Person Eight
+    - role: founder
+      names: Person Nine
+    - role: collaborator
+      names: Person Ten
+    - role: organizer
+      names: Person Eleven
+
+affiliated-media-roles:
+  type: Video
+  title: Video with Media Roles
+  affiliated:
+    - role: director
+      names: Cameron, James
+    - role: producer
+      names: Producer Name
+    - role: executive-producer
+      names: Executive Producer Name
+    - role: writer
+      names:
+        - Writer One
+        - Writer Two
+    - role: cinematography
+      names: Cinematographer Name
+    - role: cast-member
+      names:
+        - Schwarzenegger, Arnold
+        - Hamilton, Linda
+        - Patrick, Robert
+    - role: composer
+      names: Composer Name
+    - role: narrator
+      names: Narrator Name
+
+# ----------------------------------------------------------------------------
+# PUBLISHER FIELD - Testing variations
+# ----------------------------------------------------------------------------
+
+publisher-string:
+  type: Book
+  title: Publisher as String
+  publisher: Penguin Books
+
+publisher-object-minimal:
+  type: Book
+  title: Publisher Object Minimal
+  publisher:
+    name: Oxford University Press
+
+publisher-object-full:
+  type: Book
+  title: Publisher Object Full
+  publisher:
+    name: Cambridge University Press
+    location: Cambridge, UK
+
+publisher-with-location-field:
+  type: Book
+  title: Publisher with Location Field
+  publisher:
+    name: MIT Press
+    location: Cambridge, MA
+
+# ----------------------------------------------------------------------------
+# NUMERIC/STRING FIELDS - Testing variations
+# ----------------------------------------------------------------------------
+
+numeric-issue-number:
+  type: Article
+  title: Issue as Number
+  issue: 5
+
+numeric-issue-string:
+  type: Article
+  title: Issue as String
+  issue: "5"
+
+numeric-issue-range:
+  type: Article
+  title: Issue Range
+  issue: "5-6"
+
+numeric-volume-number:
+  type: Periodical
+  title: Volume as Number
+  volume: 42
+
+numeric-volume-string:
+  type: Periodical
+  title: Volume as String
+  volume: "42"
+
+numeric-volume-range:
+  type: Periodical
+  title: Volume Range
+  volume: "2-3"
+
+numeric-volume-complex:
+  type: Periodical
+  title: Complex Volume
+  volume: "Vol. 2, Part 3"
+
+numeric-chapter-number:
+  type: Chapter
+  title: Chapter as Number
+  chapter: 4
+
+numeric-chapter-string:
+  type: Chapter
+  title: Chapter as String
+  chapter: "4"
+
+numeric-chapter-roman:
+  type: Chapter
+  title: Chapter Roman Numeral
+  chapter: "IV"
+
+numeric-edition-number:
+  type: Book
+  title: Edition as Number
+  edition: 2
+
+numeric-edition-ordinal:
+  type: Book
+  title: Edition as Ordinal
+  edition: second
+
+numeric-edition-descriptive:
+  type: Book
+  title: Edition Descriptive
+  edition: "expanded and revised edition"
+
+numeric-page-range-simple:
+  type: Article
+  title: Simple Page Range
+  page-range: "812-847"
+
+numeric-page-range-prefix:
+  type: Article
+  title: Page Range with Prefix
+  page-range: "S10-S15"
+
+numeric-page-range-roman:
+  type: Article
+  title: Page Range Roman
+  page-range: "xii-xv"
+
+numeric-page-total:
+  type: Book
+  title: Page Total
+  page-total: 768
+
+numeric-volume-total:
+  type: Book
+  title: Volume Total
+  volume-total: 12
+
+# ----------------------------------------------------------------------------
+# TIMESTAMP FIELDS - Testing all formats
+# ----------------------------------------------------------------------------
+
+timestamp-mm-ss:
+  type: Video
+  title: Timestamp MM:SS
+  runtime: "12:34"
+
+timestamp-h-mm-ss:
+  type: Video
+  title: Timestamp H:MM:SS
+  runtime: "1:23:45"
+
+timestamp-hh-mm-ss:
+  type: Audio
+  title: Timestamp HH:MM:SS
+  runtime: "01:23:45"
+
+timestamp-d-hh-mm-ss:
+  type: Video
+  title: Timestamp D:HH:MM:SS
+  runtime: "2:01:23:45"
+
+timestamp-with-milliseconds:
+  type: Video
+  title: Timestamp with Milliseconds
+  runtime: "12:34,567"
+
+timestamp-full-with-ms:
+  type: Video
+  title: Full Timestamp with MS
+  runtime: "2:01:23:45,890"
+
+timestamp-overflow:
+  type: Video
+  title: Timestamp with Overflow
+  runtime: "137:00"
+
+timestamp-range-simple:
+  type: Video
+  title: Timestamp Range Simple
+  time-range: "00:12-00:34"
+
+timestamp-range-complex:
+  type: Video
+  title: Timestamp Range Complex
+  time-range: "1:23:45,123-2:34:56,789"
+
+timestamp-range-overflow:
+  type: Video
+  title: Timestamp Range Overflow
+  time-range: "137:00-140:30"
+
+# ----------------------------------------------------------------------------
+# URL FIELD - Testing variations
+# ----------------------------------------------------------------------------
+
+url-simple-string:
+  type: Web
+  title: Simple URL
+  url: https://typst.app/
+
+url-with-subdomain:
+  type: Web
+  title: URL with Subdomain
+  url: https://docs.typst.app/tutorial/
+
+url-with-path:
+  type: Web
+  title: URL with Path
+  url: https://github.com/typst/packages/blob/main/docs/manifest.md
+
+url-object-with-date:
+  type: Web
+  title: URL with Access Date
+  url:
+    value: https://www.reddit.com/r/typst/
+    date: "2025-11-09"
+
+url-object-date-year:
+  type: Web
+  title: URL with Year Access Date
+  url:
+    value: https://example.com/
+    date: 2025
+
+url-object-date-full:
+  type: Web
+  title: URL with Full Access Date
+  url:
+    value: https://example.com/page
+    date: "2025-11-09"
+
+# ----------------------------------------------------------------------------
+# SERIAL NUMBER FIELD - Testing all formats
+# ----------------------------------------------------------------------------
+
+serial-simple-string:
+  type: Web
+  title: Serial String
+  serial-number: "v2.5"
+
+serial-simple-number:
+  type: Article
+  title: Serial Number
+  serial-number: 2003.13722
+
+serial-doi:
+  type: Article
+  title: DOI Only
+  serial-number:
+    doi: "10.1103/PhysRevB.102.165126"
+
+serial-isbn:
+  type: Book
+  title: ISBN Only
+  serial-number:
+    isbn: "978-3-16-148410-0"
+
+serial-issn:
+  type: Periodical
+  title: ISSN Only
+  serial-number:
+    issn: "1234-5678"
+
+serial-pmid:
+  type: Article
+  title: PMID Only
+  serial-number:
+    pmid: "12345678"
+
+serial-pmcid:
+  type: Article
+  title: PMCID Only
+  serial-number:
+    pmcid: "PMC1234567"
+
+serial-arxiv:
+  type: Article
+  title: arXiv Only
+  serial-number:
+    arxiv: "1906.00356"
+
+serial-multiple:
+  type: Article
+  title: Multiple Serial Numbers
+  serial-number:
+    doi: "10.22541/au.148771883.35456290"
+    arxiv: "1906.00356"
+    serial: "8516"
+    pmid: "98765432"
+
+serial-custom-field:
+  type: Report
+  title: Custom Serial Fields
+  serial-number:
+    report-number: "NASA-TM-2025-123456"
+    serial: "Custom-123"
+
+# ----------------------------------------------------------------------------
+# LANGUAGE FIELD - Testing BCP 47 formats
+# ----------------------------------------------------------------------------
+
+language-simple:
+  type: Book
+  title: Simple Language
+  language: en
+
+language-three-letter:
+  type: Book
+  title: Three Letter Code
+  language: eng
+
+language-region:
+  type: Book
+  title: Language with Region
+  language: en-US
+
+language-script:
+  type: Book
+  title: Language with Script
+  language: zh-Hans
+
+language-full:
+  type: Book
+  title: Full Language Code
+  language: zh-Hans-CN
+
+language-variants:
+  type: Book
+  title: Various Languages
+  language: de-AT
+
+language-portuguese:
+  type: Book
+  title: Portuguese Brazil
+  language: pt-BR
+
+language-spanish:
+  type: Book
+  title: Spanish Spain
+  language: es-ES
+
+language-french:
+  type: Book
+  title: French France
+  language: fr-FR
+
+language-japanese:
+  type: Book
+  title: Japanese
+  language: ja-JP
+
+# ----------------------------------------------------------------------------
+# PARENT FIELD - Testing single and multiple parents
+# ----------------------------------------------------------------------------
+
+parent-single:
+  type: Chapter
+  title: Chapter with Single Parent
+  parent:
+    type: Book
+    title: Parent Book
+    author: Parent Author
+
+parent-multiple:
+  type: Article
+  title: Article with Multiple Parents
+  parent:
+    - type: Conference
+      title: Conference Proceedings 2025
+      organization: IEEE
+      location: San Francisco, CA
+      date: "2025-06-15"
+    - type: Web
+      title: Online Version
+      url: https://example.com/paper
+
+parent-nested:
+  type: Article
+  title: Nested Parent Structure
+  parent:
+    type: Periodical
+    title: Journal Name
+    volume: 42
+    issue: 3
+    parent:
+      type: Book
+      title: Series Title
+      publisher: Publisher Name
+
+parent-complex-single:
+  type: Chapter
+  title: Chapter in Edited Volume
+  page-range: "123-145"
+  parent:
+    type: Anthology
+    title: Collected Works
+    editor:
+      - Shannon, Claude E.
+      - McCarthy, John
+    publisher:
+      name: Academic Press
+      location: New York
+    date: 2024
+
+# ----------------------------------------------------------------------------
+# ARCHIVE FIELDS - Testing archive information
+# ----------------------------------------------------------------------------
+
+archive-simple:
+  type: Manuscript
+  title: Archived Manuscript
+  archive: National Library of New Zealand
+
+archive-with-location:
+  type: Manuscript
+  title: Manuscript with Archive Location
+  archive: Landesmuseum Koblenz
+  archive-location: Koblenz, Germany
+
+archive-with-call-number:
+  type: Manuscript
+  title: Manuscript with Call Number
+  archive: Library of Congress
+  archive-location: Washington, DC
+  call-number: "F16 D14"
+
+archive-formattable:
+  type: Artwork
+  title: Artwork in Archive
+  archive:
+    value: "The {Metropolitan} Museum of Art"
+    verbatim: true
+  archive-location:
+    value: New York, NY
+
+# ----------------------------------------------------------------------------
+# COMPREHENSIVE EXAMPLES - Real-world scenarios
+# ----------------------------------------------------------------------------
+
+comprehensive-book:
+  type: Book
+  title:
+    value: "The Art of Computer Programming, Volume 1: Fundamental Algorithms"
+    short: "TAOCP Vol. 1"
+  author:
+    given-name: Donald
+    name: Knuth
+    suffix: Professor Emeritus
+  edition: 3
+  publisher:
+    name: Addison-Wesley Professional
+    location: Reading, MA
+  date: "1997-07-16"
+  page-total: 650
+  serial-number:
+    isbn: "978-0-201-89683-1"
+  language: en-US
+  abstract: "A comprehensive monograph written by a computer scientist that covers many kinds of programming algorithms and their analysis."
+
+comprehensive-article:
+  type: Article
+  title: "Attention Is All You Need"
+  author:
+    - Vaswani, Ashish
+    - Shazeer, Noam
+    - Parmar, Niki
+    - Uszkoreit, Jakob
+    - Jones, Llion
+    - Gomez, Aidan N.
+    - Kaiser, Lukasz
+    - Polosukhin, Illia
+  date: "2017-06-12"
+  parent:
+    type: Conference
+    title: "Advances in Neural Information Processing Systems 30"
+    organization: "NeurIPS Foundation"
+    location: "Long Beach, CA"
+    date: 2017
+  page-range: "5998-6008"
+  serial-number:
+    arxiv: "1706.03762"
+  url:
+    value: https://arxiv.org/abs/1706.03762
+    date: "2025-11-09"
+  abstract: "The dominant sequence transduction models are based on complex recurrent or convolutional neural networks. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms."
+  language: en
+
+comprehensive-thesis:
+  type: Thesis
+  title: "Novel Approaches to Quantum Computing Error Correction"
+  author:
+    given-name: Alice
+    name: Johnson
+    suffix: PhD Candidate
+  genre: "Doctoral dissertation"
+  organization: Massachusetts Institute of Technology
+  location: Cambridge, MA
+  date: "2024-05"
+  page-total: 342
+  url: https://dspace.mit.edu/handle/example
+  abstract: "This dissertation explores novel quantum error correction codes and their applications in fault-tolerant quantum computing."
+  language: en-US
+  affiliated:
+    - role: collaborator
+      names:
+        - Smith, Robert
+        - Brown, Emily
+
+comprehensive-video:
+  type: Video
+  title: "Understanding Quantum Mechanics: A Visual Guide"
+  author: PBS Space Time
+  date: "2024-03-15"
+  runtime: "1:23:45"
+  url:
+    value: https://www.youtube.com/watch?v=example
+    date: "2025-11-09"
+  affiliated:
+    - role: director
+      names: Producer Name
+    - role: narrator
+      names: Host Name
+    - role: writer
+      names:
+        - Writer One
+        - Writer Two
+  language: en
+  abstract: "An in-depth visual exploration of quantum mechanics concepts."
+  parent:
+    type: Blog
+    title: PBS Space Time Channel
+    organization: PBS
+    url: https://www.youtube.com/@pbsspacetime
+
+comprehensive-web:
+  type: Web
+  title: "Typst Documentation: Writing Math"
+  organization: Typst GmbH
+  url:
+    value: https://typst.app/docs/reference/math/
+    date: "2025-11-09"
+  date: -2024
+  language: en
+  abstract: "Comprehensive guide to writing mathematical formulas in Typst."
+
+comprehensive-conference:
+  type: Conference
+  title: "International Conference on Machine Learning 2024"
+  organization: "PMLR"
+  location: "Vienna, Austria"
+  date: "2024-07-21"
+  url: https://icml.cc/Conferences/2024
+  serial-number:
+    serial: "ICML-2024"
+
+comprehensive-patent:
+  type: Patent
+  title: "Method and System for Quantum Communication"
+  author:
+    - Smith, Jane
+    - Doe, John
+  serial-number:
+    serial: "US20240123456A1"
+  date: "2024-05-15"
+  location: United States
+  organization: USPTO
+  abstract: "A novel method for secure quantum communication using entangled photon pairs."
+
+comprehensive-newspaper:
+  type: Newspaper
+  title: "Breakthrough in Quantum Computing Announced"
+  author: Johnson, Alice
+  parent:
+    type: Newspaper
+    title: The New York Times
+    location: New York, NY
+    publisher: The New York Times Company
+  date: "2024-11-01"
+  page-range: "A1, A8"
+  url:
+    value: https://www.nytimes.com/2024/11/01/science/quantum-computing.html
+    date: "2025-11-09"
+
+comprehensive-legislation:
+  type: Legislation
+  title: "Digital Services Act"
+  organization: "European Union"
+  location: "Brussels, Belgium"
+  date: "2022-11-16"
+  serial-number:
+    serial: "Regulation (EU) 2022/2065"
+  url: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32022R2065
+  abstract: "Regulation on a Single Market For Digital Services."
+
+comprehensive-repository:
+  type: Repository
+  title: "Typst Package Repository"
+  organization: Typst GmbH
+  url: https://github.com/typst/packages
+  date: 2024
+  language: en
+  abstract: "Official repository for Typst packages and templates."
+
+# ----------------------------------------------------------------------------
+# EDGE CASES AND SPECIAL SCENARIOS
+# ----------------------------------------------------------------------------
+
+edge-case-empty-parent-array:
+  type: Article
+  title: Testing Edge Cases
+  # Note: This should fail validation (minItems: 1)
+  # parent: []
+
+edge-case-all-fields:
+  type: Report
+  title: Entry with All Possible Fields
+  author: Doe, Jane
+  editor: Smith, John
+  date: "2024-11-09"
+  abstract: "Abstract text here"
+  genre: "Technical Report"
+  publisher:
+    name: Publisher Name
+    location: Publisher Location
+  location: Physical Location
+  organization: Organization Name
+  issue: 5
+  volume: 42
+  volume-total: 50
+  chapter: 3
+  edition: 2
+  page-range: "100-150"
+  page-total: 200
+  url:
+    value: https://example.com
+    date: 2024
+  serial-number:
+    doi: "10.1234/example"
+    serial: "REPORT-2024-001"
+  language: en-US
+  archive: Archive Name
+  archive-location: Archive Location
+  call-number: "A123.45"
+  note: "Additional notes about this entry"
+  affiliated:
+    - role: translator
+      names: Translator Name
+  parent:
+    type: Book
+    title: Parent Book Title
+
+edge-case-minimal-parent:
+  type: Chapter
+  title: Minimal Chapter
+  parent:
+    type: Book
+    title: Minimal Parent Book
+
+edge-case-unicode-title:
+  type: Book
+  title: "日本語のタイトル (Japanese Title)"
+  language: ja-JP
+
+edge-case-long-author-list:
+  type: Article
+  title: Article with Many Authors
+  author:
+    - Author, First
+    - Author, Second
+    - Author, Third
+    - Author, Fourth
+    - Author, Fifth
+    - Author, Sixth
+    - Author, Seventh
+    - Author, Eighth
+    - Author, Ninth
+    - Author, Tenth
+  note: "Et al. truncation test"
+
+edge-case-mixed-dates:
+  type: Book
+  title: Book with Parent Different Dates
+  date: 2024
+  parent:
+    type: Anthology
+    title: Parent with Different Date
+    date: "2023-05-15"
+
+edge-case-formattable-all-fields:
+  type: Book
+  title:
+    value: "Testing {Formattable} Fields"
+    short: Testing
+    verbatim: false
+  abstract:
+    value: "Abstract with $math$ and {Verbatim} text"
+    verbatim: true
+  genre:
+    value: "Technical {Report}"
+    short: Tech Report
+  location:
+    value: "{New} York, NY"
+  organization:
+    value: "{MIT} Laboratory"
+    verbatim: true
+  archive:
+    value: "Library of {Congress}"
+  note:
+    value: "Note with special formatting"
+
+# ----------------------------------------------------------------------------
+# CASE INSENSITIVITY TESTING (Entry Types)
+# ----------------------------------------------------------------------------
+
+case-article:
+  type: article
+  title: Lowercase article
+
+case-Article:
+  type: Article
+  title: Titlecase Article
+
+case-ARTICLE:
+  type: Article
+  title: Uppercase ARTICLE
+
+case-bOoK:
+  type: Book
+  title: Mixed case bOoK
+
+case-WEB:
+  type: Web
+  title: Uppercase WEB
+
+# ----------------------------------------------------------------------------
+# NULL/MISSING FIELD TESTING
+# ----------------------------------------------------------------------------
+
+minimal-only-required:
+  type: Misc
+  title: Only Required Fields
+
+optional-fields-mixed:
+  type: Book
+  title: Some Optional Fields
+  author: Author Name
+  date: 2024
+  # No publisher, no page-total, etc.
+# End of comprehensive test file
