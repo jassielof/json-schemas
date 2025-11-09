@@ -3,7 +3,7 @@ $id: https://jassielof.github.io/json-schemas/docs/typst.schema.json
 title: Typst Package Manifest
 description: |-
   Schema for typst.toml package manifest files, used by the Typst package manager and universe.
-  https://github.com/typst/packages/blob/main/docs/manifest.md.
+  https://github.com/typst/packages/blob/main/docs/manifest.md
 type: object
 required:
   - package
@@ -69,7 +69,11 @@ properties:
         type: string
         description: |-
           A short, clear description of the package (one sentence recommended). Required for Typst Universe submission.
+          Should be 40-60 characters long, terminate with a full stop, avoid "Typst" unless relevant.
           See [Writing a good description](https://github.com/typst/packages/blob/main/docs/manifest.md#writing-a-good-description).
+        # According to docs: ideally 40-60 characters, but this is a recommendation not a hard requirement
+        minLength: 10 # Added: Reasonable minimum to ensure meaningful description
+        maxLength: 200 # Added: Reasonable maximum to keep it concise
       homepage:
         type: string
         description: A link to the package's web presence, where there could be more details, an issue tracker, or something else. Will be linked to from the package list. If there is no dedicated web page for the package, don't link to its repository here. Omit this field and prefer `repository`.
@@ -87,6 +91,7 @@ properties:
         description: An array of search keywords for the package.
         items:
           type: string
+          minLength: 1 # Added: Keywords should not be empty strings
         minItems: 1
         uniqueItems: true
         examples:
@@ -104,6 +109,7 @@ properties:
         items:
           type: string
           enum:
+            # Functional categories
             - components
             - visualization
             - model
@@ -114,6 +120,7 @@ properties:
             - integration
             - utility
             - fun
+            # Publication categories
             - book
             - report
             - paper
@@ -176,24 +183,33 @@ properties:
             - theology
             - transportation
         uniqueItems: true
+        # Note: minItems not required - can be empty array if generally applicable
         examples:
           - - computer-science
             - mathematics
           - - physics
+          - [] # Empty array is valid for generally applicable packages
       compiler:
         type: string
-        description: The minimum Typst compiler version required for this package to work (SemVer format). Partial versions like '0' or '0.13' are supported. Pre-release tags are not supported.
+        description: |-
+          The minimum Typst compiler version required for this package to work (SemVer format).
+          Partial versions like '0' or '0.13' are supported. Pre-release tags are not supported.
         pattern: ^(0|[1-9]\d*)(\.(0|[1-9]\d*)){0,2}$
         examples:
           - "0"
           - "0.13"
-          - 0.8.0
-          - 1.0.0
+          - "0.8.0"
+          - "1.0.0"
       exclude:
         type: array
-        description: An array of globs specifying files that should not be part of the published bundle that the compiler downloads when importing the package. To be used for large support files like images or PDF documentation that would otherwise unnecessarily increase the bundle size. Don't exclude the README or the LICENSE.
+        description: |-
+          An array of globs specifying files that should not be part of the published bundle that the compiler downloads when importing the package.
+          To be used for large support files like images or PDF documentation that would otherwise unnecessarily increase the bundle size.
+          Don't exclude the README or the LICENSE. Template thumbnails are automatically excluded.
         items:
           type: string
+          minLength: 1 # Glob patterns should not be empty
+        uniqueItems: true # No point in duplicate globs
         examples:
           - - docs/
             - "*.pdf"
@@ -207,9 +223,12 @@ properties:
         license: MIT
         description: Calculate elementary arithmetic with functions.
     additionalProperties: false
+
   template:
     type: object
-    description: If present, declares this package as a template.
+    description: |-
+      If present, declares this package as a template.
+      Template packages must specify at least one category.
     required:
       - path
       - entrypoint
@@ -218,31 +237,49 @@ properties:
       path:
         type: string
         description: The directory within the package (relative to package root) containing files to be copied into the user's new project directory.
+        minLength: 1 # Path should not be empty
         examples:
           - template
           - skeleton
       entrypoint:
         type: string
-        description: Path relative to the template 'path' directory pointing to the main file to be compiled after initialization.
+        description: |-
+          Path relative to the template 'path' directory pointing to the main file to be compiled after initialization.
+          This file will become the previewed file in the Typst web application.
+        minLength: 1 # Entrypoint should not be empty
+        pattern: .*\.typ$ # Must be a .typ file
         examples:
           - main.typ
           - report.typ
       thumbnail:
         type: string
-        description: Path relative to the package root pointing to a PNG or lossless WebP thumbnail (min 1080px on longer edge, max 3MB) depicting the initialized template.
-        pattern: ^.*((png)|(webp))$
+        description: |-
+          Path relative to the package root pointing to a PNG or lossless WebP thumbnail.
+          Requirements: min 1080px on longer edge, max 3 MiB file size.
+          _The thumbnail will automatically be excluded from the package files._
+        pattern: ^.*\.(png|webp)$
         examples:
           - thumbnail.png
           - preview.webp
     additionalProperties: false
+
   tool:
     type: object
-    description: Namespace for third-party tools to store their own configuration.
+    description: |-
+      Namespace for third-party tools to store their own Typst-specific configuration.
+      Each tool should create its own entry under this section.
     propertyNames:
       type: string
+      minLength: 1 # Tool names should not be empty
     additionalProperties:
       type: object
+    examples:
+      - mytool:
+          foo: bar
+
 additionalProperties: false
+
+# Conditional validation: if template is present, additional fields are required
 allOf:
   - if:
       properties:
@@ -261,7 +298,7 @@ allOf:
             - authors
             - license
             - description
-            - categories
+            - categories # Required for template packages
           properties:
             name:
               type: string
@@ -277,4 +314,4 @@ allOf:
               type: string
             categories:
               type: array
-              minItems: 1
+              minItems: 1 # Templates must have at least one category
