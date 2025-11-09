@@ -1,0 +1,11 @@
+version: 3
+
+tasks:
+  build:
+    cmd: bun run build
+    desc: Build JSON Schemas
+    watch: true
+    sources:
+      - docs/*.yaml
+    generates:
+      - docs/*.json

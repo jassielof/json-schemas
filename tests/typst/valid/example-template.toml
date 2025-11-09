@@ -1,0 +1,14 @@
+#:schema ../../../docs/typst.schema.json
+
+[package]
+name = "my-template"
+entrypoint = "lib.typ"
+version = "0.1.0"
+authors = ["the author", "the coauthor"]
+categories = ["book", "components"]
+compiler = "0.14.0"
+# compiler = "0.14"
+description = "A short description of my template."
+disciplines = []
+exclude
+
