@@ -4,7 +4,6 @@ tasks:
   build:
     cmd: bun scripts/build.js
     desc: Build JSON Schemas
-    watch: true
     sources:
       - docs/*.yaml
     generates:
@@ -28,11 +27,11 @@ tasks:
   format:
     deps:
       - build
-    cmd: bun prettier --write 'docs/*.schema.json'
+    cmd: bun prettier --write 'docs/*'
     sources:
-      - docs/*.json
+      - docs/*
     generates:
-      - docs/*.json
+      - docs/*
   test:
     deps:
       - build
