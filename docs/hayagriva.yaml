@@ -610,8 +610,13 @@ definitions:
     oneOf:
       - type: string
         format: uri
+        examples:
+          - https://typst.app/
         minLength: 1
       - type: object
+        examples:
+          - value: https://www.reddit.com/r/AccidentalRenaissance/comments/er1uxd/japanese_opposition_members_trying_to_block_the/
+            date: "2020-12-29"
         properties:
           value:
             title: URL Value
@@ -626,10 +631,6 @@ definitions:
         required:
           - value
         additionalProperties: false
-    examples:
-      - https://typst.app/
-      - value: https://www.reddit.com/r/AccidentalRenaissance/comments/er1uxd/japanese_opposition_members_trying_to_block_the/
-        date: "2020-12-29"
 
   serialNumber:
     # Note: Typst allows numbers here despite docs saying strings (implementation detail)
@@ -642,7 +643,11 @@ definitions:
     oneOf:
       - type: string
         minLength: 1
+        examples:
+          - "2003.13722"
       - type: number
+        examples:
+          - 2003.13722
       - type: object
         properties:
           doi:
@@ -684,12 +689,10 @@ definitions:
           type: string
           minLength: 1
         minProperties: 1
-    examples:
-      - "2003.13722"
-      - 2003.13722
-      - doi: "10.22541/au.148771883.35456290"
-        arxiv: "1906.00356"
-        serial: "8516"
+        examples:
+          - doi: "10.22541/au.148771883.35456290"
+            arxiv: "1906.00356"
+            serial: "8516"
 
   language:
     title: Language
