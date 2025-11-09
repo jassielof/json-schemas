@@ -10,5 +10,8 @@ compiler = "0.14.0"
 # compiler = "0.14"
 description = "A short description of my template."
 disciplines = []
-exclude
 
+[template]
+entrypoint = "main.typ"
+path = "template"
+thumbnail = "thumbnail.png"
