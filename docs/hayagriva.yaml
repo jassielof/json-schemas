@@ -1,12 +1,18 @@
 $schema: http://json-schema.org/draft-07/schema#
 $id: https://jassielof.github.io/json-schemas/docs/hayagriva.schema.json
-title: Hayagriva
+title: Hayagriva Bibliography Format
 type: object
-description: A bibliography management format for the modern age.
+description: |-
+  Schema for Hayagriva YAML bibliography files, a bibliography management format for the modern age.
+  https://github.com/typst/hayagriva/blob/main/docs/file-format.md
+
+# Top level is a mapping of entry keys to entries
 propertyNames:
   type: string
+  minLength: 1 # Entry keys should not be empty
 additionalProperties:
   $ref: "#/definitions/topLevelEntry"
+
 examples:
   - harry:
       type: Book
@@ -51,7 +57,7 @@ examples:
           organization: Apple Inc.
           location: Mountain View, CA
         - type: Video
-          runtime: 00:13:42
+          runtime: "00:13:42"
           url: https://developer.apple.com/videos/play/wwdc2020/10111/
   - plaque:
       type: Misc
@@ -69,7 +75,9 @@ examples:
           title: Bleibtreustraße
           archive: Landesmuseum Koblenz
           archive-location: Koblenz, Germany
+
 definitions:
+  # Top-level entries must have a type field
   topLevelEntry:
     allOf:
       - $ref: "#/definitions/entry"
@@ -79,32 +87,37 @@ definitions:
             $ref: "#/definitions/entryType"
         required:
           - type
+
   entry:
     title: Bibliography Entry
     type: object
-    description: A single bibliography entry.
+    description: A single bibliography entry with fields describing a work.
     properties:
       type:
         $ref: "#/definitions/entryType"
-        title: Type
+        title: Entry Type
         default: misc
+
       title:
         $ref: "#/definitions/formattableString"
         title: Title
         description: The title of this entry.
         examples:
-          - '"Rick Astley: How An Internet Joke Revived My Career"'
-          - value: '"Rick Astley: How An Internet Joke Revived My Career"'
+          - "Rick Astley: How An Internet Joke Revived My Career"
+          - value: "Rick Astley: How An Internet Joke Revived My Career"
             short: Rick Astley
             verbatim: false
+
       author:
         $ref: "#/definitions/personOrList"
         title: Author
         description: The person or people primarily responsible for the creation of this entry.
+
       date:
         $ref: "#/definitions/date"
         title: Date
         description: The date of publication or creation of this entry.
+
       parent:
         $ref: "#/definitions/parentOrArray"
         title: Parent Entry
@@ -115,65 +128,95 @@ definitions:
             editor:
               - Shannon, Claude E.
               - McCarthy, John
+
       abstract:
         $ref: "#/definitions/formattableString"
         title: Abstract
         description: The abstract or summary of the entry.
         examples:
           - The dominant sequence transduction models are based on complex...
+
       genre:
         $ref: "#/definitions/formattableString"
         title: Genre
-        description: The type, class, or subtype of the item (e.g. "Doctoral dissertation" for a PhD thesis; "NIH Publication" for an NIH technical report). This field is not intended for topical descriptions or categories (e.g. "adventure" for an adventure movie).
+        description: |-
+          The type, class, or subtype of the item (e.g. "Doctoral dissertation" for a PhD thesis; "NIH Publication" for an NIH technical report).
+          Do not use for topical descriptions or categories (e.g. "adventure" for an adventure movie).
         examples:
           - Doctoral dissertation
+
       editor:
         $ref: "#/definitions/personOrList"
         title: Editor
         description: The person or people responsible for selecting and revising the content of the entry.
+
       affiliated:
         $ref: "#/definitions/affiliatedList"
-        description: The people involved with the entry that do not fit `author` or `editor` roles.
+        title: Affiliated People
+        description: People involved with the entry that do not fit `author` or `editor` roles.
+
       call-number:
         $ref: "#/definitions/formattableString"
         title: Call Number
         description: The number of the item in a library, institution, or collection. Use with the `archive` field.
         examples:
           - F16 D14
+
       publisher:
         $ref: "#/definitions/publisher"
         title: Publisher
-        description: The name of the publisher. The publisher's location also be included.
+        description: The publisher of the item. Can include name and location.
+
       location:
         $ref: "#/definitions/formattableString"
         title: Location
-        description: The location at which the entry is physically located or took place. For the location where an item was published, use the `publisher` field instead.
+        description: |-
+          The location at which the entry is physically located or took place.
+          For the location where an item was published, use the `publisher` field instead.
         examples:
           - Lahore, Pakistan
+
       organization:
         $ref: "#/definitions/formattableString"
         title: Organization
         description: The organization at/for which the entry was produced.
         examples:
           - Technische Universität Berlin
+
       issue:
         $ref: "#/definitions/numericOrString"
         title: Issue
-        description: For an entry whose parent has multiple issues, this field identifies to which specific issue the entry belongs. Also used to indicate the episode number for TV series.
+        description: |-
+          For an entry whose parent has multiple issues, this field identifies to which specific issue the entry belongs.
+          Also used to indicate the episode number for TV series.
         examples:
           - 5
+
       volume:
         $ref: "#/definitions/numericOrString"
         title: Volume
         description: For an entry whose parent has multiple volumes, parts, seasons, etc., this field identifies to which specific volume the entry belongs.
         examples:
           - 2-3
+
       volume-total:
         title: Volume Total
         description: The total number of volumes, parts, seasons, etc., in the series that contains this entry.
         type: integer
+        minimum: 1 # Added: Must be positive
         examples:
           - 12
+
+      chapter:
+        $ref: "#/definitions/numericOrString"
+        title: Chapter
+        description: |-
+          The number of the chapter in the referenced work where this item can be found.
+          When the chapter itself is the item being cited (common if it has its own non-numeric title),
+          prefer using `type: chapter` for the entry while specifying the containing work's data as its parent.
+        examples:
+          - "4"
+
       edition:
         $ref: "#/definitions/numericOrString"
         title: Edition
@@ -182,76 +225,93 @@ definitions:
           - expanded and revised edition
           - second
           - 2
+
       page-range:
         $ref: "#/definitions/numericOrString"
         title: Page Range
-        description: The range of pages within that this entry occupies within the parent.
+        description: The range of pages within the parent that this entry occupies.
         examples:
           - 812-847
-      chapter:
-        $ref: "#/definitions/numericOrString"
-        title: Chapter
-        description: "The number of the chapter in the referenced work where this item can be found. When the chapter itself is the item being cited, which is common if it has its own non-numeric title, prefer using `type: chapter` for the entry while specifying the containing work's data as its parent."
-        examples:
-          - "4"
+          - S10-15 # Can have non-numeric prefix/suffix
+
       page-total:
         title: Page Total
         description: The total number of pages in the entry.
         type: integer
+        minimum: 1 # Added: Must be positive
         examples:
           - 768
+
       time-range:
         $ref: "#/definitions/timestampRange"
         title: Time Range
         description: The time range within the parent at which this entry starts and ends.
+
       runtime:
         $ref: "#/definitions/timestamp"
         title: Runtime
         description: The total runtime of the entry.
+
       url:
         $ref: "#/definitions/url"
         title: URL
         description: The canonical public URL of the entry, which may include an access date.
+
       serial-number:
         $ref: "#/definitions/serialNumber"
         title: Serial Number
-        description: Any serial number, including article numbers, associated with the entry. If you have serial numbers of well-known schemes like `doi`, you should put them into the serial number as a dictionary. Hayagriva will recognize and specially treat `doi`, `isbn`, `issn`, `pmid`, `pmcid`, and `arxiv`. You can also include `serial` for the serial number when you provide other formats as well.
+        description: |-
+          Any serial number, including article numbers, associated with the entry.
+          If you have serial numbers of well-known schemes like `doi`, you should put them into the serial number as a dictionary.
+          Hayagriva will recognize and specially treat `doi`, `isbn`, `issn`, `pmid`, `pmcid`, and `arxiv`.
+          You can also include `serial` for the serial number when you provide other formats as well.
+
       language:
         $ref: "#/definitions/language"
         title: Language
-        description: The language of the entry.
+        description: The language of the entry as a Unicode Language Identifier.
+
       archive:
         $ref: "#/definitions/formattableString"
         title: Archive
         description: The name of the institution/collection where the entry is kept.
         examples:
           - National Library of New Zealand
+
       archive-location:
         $ref: "#/definitions/formattableString"
         title: Archive Location
         description: The location of the institution/collection where the entry is kept.
         examples:
           - Wellington, New Zealand
+
       note:
         $ref: "#/definitions/formattableString"
         title: Note
         description: A short markup, decoration, or annotation to the entry (e.g., to indicate items included in a review).
         examples:
           - microfilm version
+
     additionalProperties: false
+
   publisher:
+    title: Publisher
+    description: Publisher information - can be a simple string or an object with name and location.
     oneOf:
       - type: string
+        minLength: 1
       - type: object
         properties:
           name:
             title: Publisher Name
             description: The name of the publisher.
             type: string
+            minLength: 1
           location:
             title: Publisher Location
             description: The location of the publisher.
             type: string
+            minLength: 1
         required:
           - name
         additionalProperties: false
@@ -259,12 +319,16 @@ definitions:
       - Penguin Books
       - name: Penguin Books
         location: London
+
   entryType:
-    $comment: Typst supports case insensitive for the first letter, but the rest must be lowercase.
+    # Note: Typst supports case-insensitive matching, but for consistency we use the canonical forms
     type: string
     title: Entry Type
-    description: The media type of the entry. Often determines the structure of references.
+    description: |-
+      The media type of the entry. Often determines the structure of references.
+      Entry types are case-insensitive in Typst (first letter can be upper or lowercase).
     default: misc
+    # Pattern allows first letter to be uppercase or lowercase, rest must match exact casing
     pattern: ^(?:[Aa]rticle|[Cc]hapter|[Ee]ntry|[Aa]nthos|[Rr]eport|[Tt]hesis|[Ww]eb|[Ss]cene|[Aa]rtwork|[Pp]atent|[Cc]ase|[Nn]ewspaper|[Ll]egislation|[Mm]anuscript|[Oo]riginal|[Pp]ost|[Mm]isc|[Pp]erformance|[Pp]eriodical|[Pp]roceedings|[Bb]ook|[Bb]log|[Rr]eference|[Cc]onference|[Aa]nthology|[Rr]epository|[Tt]hread|[Vv]ideo|[Aa]udio|[Ee]xhibition)$
     examples:
       - article
@@ -297,27 +361,27 @@ definitions:
       - video
       - audio
       - exhibition
+
   parentOrArray:
+    title: Parent Entry or Array
+    description: |-
+      Parent entry/entries. Can be a single parent or an array of parents.
+      Multiple parents are useful when media is published in multiple ways.
     oneOf:
       - $ref: "#/definitions/entry"
       - type: array
         items:
           $ref: "#/definitions/entry"
+        minItems: 1 # Added: If array, must have at least one parent
         uniqueItems: true
+
   affiliatedList:
-    $comment: Typst doesn't throw error if this is an object.
+    # Note: Typst doesn't throw error if this is an object (lenient parsing)
     title: Affiliated People
+    description: List of people involved with the entry in specific roles.
     type: array
-    examples:
-      - role: director
-        names: Cameron, James
-      - role: cast-member
-        names:
-          - Schwarzenegger, Arnold
-          - Hamilton, Linda
-          - Patrick, Robert
     items:
-      title: Affiliated List
+      title: Affiliated Role
       type: object
       properties:
         role:
@@ -332,10 +396,22 @@ definitions:
         - role
         - names
       additionalProperties: false
+    minItems: 1 # Added: If provided, should have at least one entry
     uniqueItems: true
+    examples:
+      - - role: director
+          names: Cameron, James
+        - role: cast-member
+          names:
+            - Schwarzenegger, Arnold
+            - Hamilton, Linda
+            - Patrick, Robert
+
   roleType:
-    $comment: Typst only supports case sensitive roles, the docs are inconsistent with this.
+    # Note: Typst is case-sensitive for roles despite docs inconsistency
     type: string
+    title: Role Type
+    description: The role of an affiliated person. Must be one of the predefined roles (case-sensitive).
     enum:
       - translator
       - afterword
@@ -357,22 +433,33 @@ definitions:
       - director
       - illustrator
       - narrator
+
   formattableString:
+    title: Formattable String
+    description: |-
+      A string that may run through a text case transformer when used in a reference or citation.
+      Can disable transformations on segments or the whole string.
+      Can include mathematical markup in dollars ($...$) and supports short forms.
     oneOf:
       - type: string
+        minLength: 1
       - type: object
         properties:
           value:
             title: Value
             type: string
+            minLength: 1
           verbatim:
             title: Verbatim
-            description: If true, disables text case transformations.
+            description: If true, disables text case transformations. Preserves casing as it appears in source.
             type: boolean
+            default: false
           short:
             title: Short Form
             description: A short form that a citation style can choose to render over the longer form.
             type: string
+            minLength: 1 # Added: Short form should not be empty
+        # Note: verbatim and short only make sense when value is present
         dependencies:
           verbatim:
             - value
@@ -381,9 +468,23 @@ definitions:
         required:
           - value
         additionalProperties: false
+    examples:
+      - UN World Food Programme
+      - '"{imagiNary} Publishing"' # Braces preserve casing of that segment
+      - value: UN World Food Programme
+        verbatim: true
+      - value: International Proceedings of Customs
+        short: Int. Proc. Customs
+
   person:
+    title: Person
+    description: |-
+      A person with a name and optionally given name, prefix, suffix, and alias.
+      String format: "Last, First" or "Prefix Last, First, Suffix"
+      Prefix is auto-detected using BibTeX algorithm (consecutive lowercase words at start).
     oneOf:
       - type: string
+        minLength: 1
         examples:
           - Doe, Janet
           - Luther King, Martin, Jr.
@@ -392,158 +493,222 @@ definitions:
       - type: object
         properties:
           name:
-            title: Name
-            description: The family name of the person.
+            title: Family Name
+            description: The family/last name of the person (required).
             type: string
+            minLength: 1
           given-name:
             title: Given Name
-            description: The given name of the person.
+            description: The given/first name of the person.
             type: string
+            minLength: 1
           prefix:
-            title: Prefix
-            description: The prefix of the person's name.
+            title: Name Prefix
+            description: The prefix of the person's name (e.g., "von", "van der").
             type: string
+            minLength: 1
           suffix:
-            title: Suffix
-            description: The suffix of the person's name.
+            title: Name Suffix
+            description: The suffix of the person's name (e.g., "Jr.", "III").
             type: string
+            minLength: 1
           alias:
             title: Alias
-            description: An alias for the person.
+            description: An alternative name or pseudonym for the person.
             type: string
+            minLength: 1
+        required:
+          - name
+        additionalProperties: false
         examples:
           - given-name: Gloria Jean
             name: Watkins
             alias: bell hooks
           - given-name: Ursula
-            name: Le Guin
-            alias: Ursula K. Le Guin
-        required:
-          - name
-        additionalProperties: false
+            prefix: von
+            name: Leyen
+
   personOrList:
-    title: Person or List
+    title: Person or List of Persons
+    description: A single person or an array of persons.
     oneOf:
       - $ref: "#/definitions/person"
       - type: array
         items:
           $ref: "#/definitions/person"
+        minItems: 1 # Added: If array, must have at least one person
         uniqueItems: true
+
   date:
-    description: A calendar date in ISO 8601 format.
+    title: Date
+    description: |-
+      A calendar date in ISO 8601 format (YYYY-MM-DD, YYYY-MM, or YYYY).
+      Can include sign prefix for years before 0000 (e.g., -0001 for 2 B.C.E.).
+      Year 1 B.C.E. is represented as 0000.
     examples:
       - 2025
       - "2025-12-31"
-      - 2025-12
+      - "2025-12"
+      - "-0001" # 2 B.C.E.
     anyOf:
       - type: integer
-        minimum: 0
-        description: Shortened date for year only.
-      - $comment: ISO 8601 date format (YYYY-MM-DD | YYYY-MM | YYYY).
-        type: string
-        pattern: ^([+-~]?\d{4,})(-(0[1-9]|1[0-2])(-(0[1-9]|[12][0-9]|3[01]))?)?$
+        description: Year only as integer.
+      - type: string
+        # Pattern allows optional sign/tilde, 4+ digit year, optional month, optional day
+        pattern: ^[+-~]?\d{4,}(-(?:0[1-9]|1[0-2])(?:-(?:0[1-9]|[12]\d|3[01]))?)?$
+        description: ISO 8601 date format (YYYY-MM-DD | YYYY-MM | YYYY) with optional sign prefix.
+
   timestamp:
-    description: A timestamp represents some time in a piece of media. It is given as a string of the form DD:HH:MM:SS,msms but everything except MM:SS can be omitted. The left-most time denomination allows values that could overflow into the next-largest denomination if that is not specified.
+    title: Timestamp
+    description: |-
+      A timestamp within media content: DD:HH:MM:SS,msms (only MM:SS required).
+      Left-most denomination can overflow (e.g., "138:00" for 2h 18min is valid).
+      Format: [DD:][HH:]MM:SS[,msms]
     type: string
     examples:
       - "12:34"
-      - "137:00"
+      - "137:00" # 2 hours 17 minutes (overflow allowed)
       - "1:12:34"
       - "2:01:12:34"
-      - 12:34,567
-      - 1:12:34,567
-      - 2:01:12:34,567
-    pattern: ^(\d+:[0-5]\d|\d{1,2}:[0-5]?\d:[0-5]\d|\d{1,2}:[0-2]?\d:[0-5]?\d:[0-5]\d)(,\d+)?$
+      - "12:34,567"
+      - "1:12:34,567"
+      - "2:01:12:34,567"
+    # Pattern supports: MM:SS | HH:MM:SS | DD:HH:MM:SS with optional ,milliseconds
+    # Left-most can overflow (no max limit on first number)
+    pattern: ^(\d+:[0-5]\d|\d{1,2}:[0-5]\d:[0-5]\d|\d{1,2}:\d{1,2}:[0-5]\d:[0-5]\d)(,\d+)?$
+
   timestampRange:
-    description: A range of timestamps is a string containing two timestamps separated by a hyphen. The left-most time denomination in each timestamp allows values that could overflow into the next-largest denomination if that is not specified.
+    title: Timestamp Range
+    description: |-
+      A range of two timestamps separated by a hyphen: start-end.
+      Each timestamp follows the timestamp format rules.
     type: string
     examples:
-      - 00:12-00:34
-      - 1:00:12-1:00:34
-      - 2:01:12:34-2:01:12:56
-      - 00:12,567-00:34,890
-      - 1:00:12,567-1:00:34,890
-      - 137:00-140:00
-    pattern: ^(\d+:[0-5]\d|\d{1,2}:[0-5]?\d:[0-5]\d|\d{1,2}:[0-2]?\d:[0-5]?\d:[0-5]\d)(,\d+)?-(\d+:[0-5]\d|\d{1,2}:[0-5]?\d:[0-5]\d|\d{1,2}:[0-2]?\d:[0-5]?\d:[0-5]\d)(,\d+)?$
+      - "00:12-00:34"
+      - "1:00:12-1:00:34"
+      - "2:01:12:34-2:01:12:56"
+      - "00:12,567-00:34,890"
+      - "1:00:12,567-1:00:34,890"
+      - "137:00-140:00" # Overflow allowed
+    # Two timestamps separated by hyphen
+    pattern: ^(\d+:[0-5]\d|\d{1,2}:[0-5]\d:[0-5]\d|\d{1,2}:\d{1,2}:[0-5]\d:[0-5]\d)(,\d+)?-(\d+:[0-5]\d|\d{1,2}:[0-5]\d:[0-5]\d|\d{1,2}:\d{1,2}:[0-5]\d:[0-5]\d)(,\d+)?$
+
   numericOrString:
-    description: A numeric or string value.
+    title: Numeric or String
+    description: |-
+      A numeric variable: one or more numbers delimited by commas, ampersands, or hyphens.
+      Can express single numbers or ranges. May contain negative numbers.
+      Can have non-numeric prefix and suffix (e.g., "S10-15").
     oneOf:
       - type: number
       - type: string
+        minLength: 1
+
   url:
-    description: Canonical public URL of the entry, can have access date.
+    title: URL
+    description: Canonical public URL of the entry, optionally with access date.
     oneOf:
       - type: string
+        format: uri
+        minLength: 1
       - type: object
         properties:
           value:
             title: URL Value
             description: The URL value.
             type: string
+            format: uri
+            minLength: 1
           date:
             $ref: "#/definitions/date"
             title: Access Date
-            description: The access date of the URL.
-        examples:
-          - https://typst.app/
-          - value: https://www.reddit.com/r/AccidentalRenaissance/comments/er1uxd/japanese_opposition_members_trying_to_block_the/
-            date: "2020-12-29"
+            description: The date when the URL was accessed.
         required:
           - value
         additionalProperties: false
+    examples:
+      - https://typst.app/
+      - value: https://www.reddit.com/r/AccidentalRenaissance/comments/er1uxd/japanese_opposition_members_trying_to_block_the/
+        date: "2020-12-29"
+
   serialNumber:
-    $comment: Typst allows these to be numbers, docs are inconsistent (strings).
-    description: Any serial number, including article numbers. If you have serial numbers of well-known schemes like `doi`, you should put them into the serial number as a dictionary. Hayagriva will recognize and specially treat `doi`, `isbn`, `issn`, `pmid`, `pmcid`, and `arxiv`. You can also include `serial` for the serial number when you provide other formats as well.
+    # Note: Typst allows numbers here despite docs saying strings (implementation detail)
+    title: Serial Number
+    description: |-
+      Any serial number including article numbers.
+      Can be a simple string/number or an object with well-known schemes.
+      Hayagriva specially treats: doi, isbn, issn, pmid, pmcid, arxiv.
+      Use 'serial' key for generic serial numbers when providing other formats.
     oneOf:
       - type: string
+        minLength: 1
       - type: number
       - type: object
-        examples:
-          - '"2003.13722"'
-          - doi: '"10.22541/au.148771883.35456290"'
-            arxiv: '"1906.00356"'
-            serial: '"8516"'
         properties:
           doi:
             title: DOI
             description: Digital Object Identifier.
             type: string
+            minLength: 1
           isbn:
             title: ISBN
             description: International Standard Book Number.
             type: string
+            minLength: 1
           issn:
             title: ISSN
             description: International Standard Serial Number.
             type: string
+            minLength: 1
           pmid:
             title: PMID
             description: PubMed Identifier.
             type: string
+            minLength: 1
           pmcid:
             title: PMCID
             description: PubMed Central Identifier.
             type: string
+            minLength: 1
           arxiv:
             title: arXiv
             description: arXiv Identifier.
             type: string
+            minLength: 1
           serial:
             title: Serial Number
-            description: Serial number.
+            description: Generic serial number.
             type: string
+            minLength: 1
         additionalProperties:
           type: string
-  language:
-    $comment: Unicode Language Identifier (BCP 47).
-    description: The Language of the entry.
+          minLength: 1
+        minProperties: 1
     examples:
+      - "2003.13722"
+      - 2003.13722
+      - doi: "10.22541/au.148771883.35456290"
+        arxiv: "1906.00356"
+        serial: "8516"
+
+  language:
+    title: Language
+    description: |-
+      Unicode Language Identifier (BCP 47 / ISO 639-1 based).
+      Format: language[-script][-region][-variant]
+      Examples: "en" (English), "en-US" (American English), "zh-Hans-CN" (Simplified Chinese in China)
+      Script uses title case (e.g., "Hans"), region uses uppercase (e.g., "US").
+    type: string
+    # Pattern: 2-3 letter language code, optional 4-letter script (title case), optional 2-letter region (uppercase)
+    # Simplified from full BCP 47 spec but covers common cases
+    pattern: ^[a-z]{2,3}(-[A-Z][a-z]{3})?(-[A-Z]{2})?$
+    examples:
+      - en
       - zh-Hans
+      - zh-Hans-CN
       - en-US
       - de-AT
       - fr-FR
       - es-ES
       - pt-BR
       - ja-JP
-    type: string
-    pattern: ^[a-z]{2,3}(-[A-Z][a-z]{3,4})?(-[A-Z]{2})?$

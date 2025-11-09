@@ -80,7 +80,7 @@
         },
         "categories": {
           "type": "array",
-          "description": "An array with up to three categories from the official list to help users discover the package.\nSee [categories](https://github.com/typst/packages/blob/main/docs/CATEGORIES.md).",
+          "description": "An array with up to three categories from the official list to help users discover the package.\nSee [categories](https://github.com/typst/packages/blob/main/docs/CATEGORIES.md).\nRequired for template packages.",
           "items": {
             "type": "string",
             "enum": [
@@ -250,34 +250,8 @@
         "properties": {
           "package": {
             "type": "object",
-            "required": [
-              "name",
-              "version",
-              "entrypoint",
-              "authors",
-              "license",
-              "description",
-              "categories"
-            ],
+            "required": ["categories"],
             "properties": {
-              "name": {
-                "type": "string"
-              },
-              "version": {
-                "type": "string"
-              },
-              "entrypoint": {
-                "type": "string"
-              },
-              "authors": {
-                "type": "array"
-              },
-              "license": {
-                "type": "string"
-              },
-              "description": {
-                "type": "string"
-              },
               "categories": {
                 "type": "array",
                 "minItems": 1
