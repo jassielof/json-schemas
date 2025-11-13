@@ -103,8 +103,8 @@ definitions:
         title: Title
         description: The title of this entry.
         examples:
-          - "Rick Astley: How An Internet Joke Revived My Career"
-          - value: "Rick Astley: How An Internet Joke Revived My Career"
+          - "'Rick Astley: How An Internet Joke Revived My Career'"
+          - value: "'Rick Astley: How An Internet Joke Revived My Career'"
             short: Rick Astley
             verbatim: false
 
@@ -321,7 +321,7 @@ definitions:
         location: London
 
   entryType:
-    # Note: Typst supports case-insensitive matching, but for consistency we use the canonical forms
+    # Note: Typst docs state the support for case-insensitivity, but as of Typst 0.14.0 only the first letter is case-insensitive, the rest must be lowercase.
     type: string
     title: Entry Type
     description: |-
@@ -329,6 +329,7 @@ definitions:
       Entry types are case-insensitive in Typst (first letter can be upper or lowercase).
     default: misc
     # Pattern allows first letter to be uppercase or lowercase, rest must match exact casing
+    # One could use simply enum here, but enums can't aren't case-insensitive, also pattern's regex doesn't allow the case-insensitivity flag.
     pattern: ^(?:[Aa]rticle|[Cc]hapter|[Ee]ntry|[Aa]nthos|[Rr]eport|[Tt]hesis|[Ww]eb|[Ss]cene|[Aa]rtwork|[Pp]atent|[Cc]ase|[Nn]ewspaper|[Ll]egislation|[Mm]anuscript|[Oo]riginal|[Pp]ost|[Mm]isc|[Pp]erformance|[Pp]eriodical|[Pp]roceedings|[Bb]ook|[Bb]log|[Rr]eference|[Cc]onference|[Aa]nthology|[Rr]epository|[Tt]hread|[Vv]ideo|[Aa]udio|[Ee]xhibition)$
     examples:
       - article
