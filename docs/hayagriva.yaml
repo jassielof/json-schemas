@@ -3,7 +3,7 @@ $id: https://jassielof.github.io/json-schemas/docs/hayagriva.schema.json
 title: Hayagriva Bibliography Format
 type: object
 description: |-
-  Schema for Hayagriva YAML bibliography files, a bibliography management format for the modern age.
+  (Community) Schema for Hayagriva YAML bibliography files, a bibliography management format for the modern age.
   https://github.com/typst/hayagriva/blob/main/docs/file-format.md
 
 # Top level is a mapping of entry keys to entries
@@ -321,7 +321,7 @@ definitions:
         location: London
 
   entryType:
-    # Note: Typst docs state the support for case-insensitivity, but as of Typst 0.14.0 only the first letter is case-insensitive, the rest must be lowercase.
+    # FIXME: Typst docs state the support for case-insensitivity, but as of Typst 0.14.0 only the first letter is case-insensitive, the rest must be lowercase.
     type: string
     title: Entry Type
     description: |-
@@ -377,7 +377,7 @@ definitions:
         uniqueItems: true
 
   affiliatedList:
-    # Note: Typst doesn't throw error if this is an object (lenient parsing)
+    # FIXME: Typst doesn't throw error if this is an object (lenient parsing)
     title: Affiliated People
     description: List of people involved with the entry in specific roles.
     type: array
@@ -409,7 +409,7 @@ definitions:
             - Patrick, Robert
 
   roleType:
-    # Note: Typst is case-sensitive for roles despite docs inconsistency
+    # FIXME: Typst is case-sensitive for roles despite docs inconsistency
     type: string
     title: Role Type
     description: The role of an affiliated person. Must be one of the predefined roles (case-sensitive).
@@ -634,7 +634,7 @@ definitions:
         additionalProperties: false
 
   serialNumber:
-    # Note: Typst allows numbers here despite docs saying strings (implementation detail)
+    # FIXME: Typst allows numbers here despite docs saying strings (implementation detail)
     title: Serial Number
     description: |-
       Any serial number including article numbers.
