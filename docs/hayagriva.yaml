@@ -373,7 +373,7 @@ definitions:
       - type: array
         items:
           $ref: "#/definitions/entry"
-        minItems: 1 # Added: If array, must have at least one parent
+        minItems: 1
         uniqueItems: true
 
   affiliatedList:
