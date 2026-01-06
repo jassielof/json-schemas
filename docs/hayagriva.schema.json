@@ -3,7 +3,7 @@
   "$id": "https://jassielof.github.io/json-schemas/docs/hayagriva.schema.json",
   "title": "Hayagriva Bibliography Format",
   "type": "object",
-  "description": "Schema for Hayagriva YAML bibliography files, a bibliography management format for the modern age.\nhttps://github.com/typst/hayagriva/blob/main/docs/file-format.md",
+  "description": "(Community) Schema for Hayagriva YAML bibliography files, a bibliography management format for the modern age.\nhttps://github.com/typst/hayagriva/blob/main/docs/file-format.md",
   "propertyNames": {
     "type": "string",
     "minLength": 1

@@ -2,7 +2,7 @@ $schema: http://json-schema.org/draft-07/schema#
 $id: https://jassielof.github.io/json-schemas/docs/typst.schema.json
 title: Typst Package Manifest
 description: |-
-  Schema for typst.toml package manifest files, used by the Typst package manager and universe.
+  (Community) Schema for typst.toml package manifest files, used by the Typst package manager and universe.
   https://github.com/typst/packages/blob/main/docs/manifest.md
 type: object
 required:
@@ -56,11 +56,33 @@ properties:
       license:
         type: string
         description: |-
-          The package's license. Must contain a valid SPDX 2.3 expression describing one or multiple licenses.
-          See [Licensing](https://github.com/typst/packages/blob/main/docs/licensing.md).
-          Required for Typst Universe submission.
+          The package's license, specified as a valid SPDX license expression.
+
+          Must be a valid SPDX license expression using identifiers from the SPDX License List, check:
+          - <https://spdx.org/licenses/>
+          - <https://opensource.org/licenses>
+
+          Allowed license types:
+          - OSI-approved licenses (MIT, Apache-2.0, GPL-3.0-or-later, BSD-3-Clause, etc.)
+          - Creative Commons licenses: CC-BY, CC-BY-SA, or CC0 variants
+
+          Expression syntax:
+          - Single license: Use the SPDX short identifier (e.g., "MIT")
+          - Multiple licenses (choice): Use OR operator (e.g., "MIT OR Apache-2.0")
+          - Multiple licenses (all apply): Use AND operator (e.g., "LGPL-2.1-only AND BSD-3-Clause")
+          - License with exception: Use WITH operator (e.g., "GPL-2.0-or-later WITH Autoconf-exception-2.0")
+          - Version flexibility: Use "-only" or "-or-later" suffixes for versioned licenses
+          - Grouping: Use parentheses to control precedence (e.g., "(MIT OR Apache-2.0) AND CC0-1.0")
+
+          Note: Creative Commons licenses are recommended only for content/data packages or CC-BY-SA derivatives, not for code. For template packages where generated content should be freely distributable, consider permissive licenses like MIT-0 or 0BSD.
+
+          Required for Typst Universe submission. Must also include a LICENSE file or link to the license in README.md. See https://github.com/typst/packages/blob/main/docs/licensing.md
         examples:
           - MIT
+          - MIT-0
+          - MPL-2.0
+          - EUPL-1.2
+          - Unlicense
           - Apache-2.0
           - GPL-3.0-or-later
           - MIT OR Apache-2.0
@@ -91,7 +113,7 @@ properties:
         description: An array of search keywords for the package.
         items:
           type: string
-          minLength: 1 # Added: Keywords should not be empty strings
+          minLength: 1
         minItems: 1
         uniqueItems: true
         examples:
@@ -238,7 +260,7 @@ properties:
       path:
         type: string
         description: The directory within the package (relative to package root) containing files to be copied into the user's new project directory.
-        minLength: 1 # Path should not be empty
+        minLength: 1
         examples:
           - template
           - skeleton
@@ -247,8 +269,8 @@ properties:
         description: |-
           Path relative to the template 'path' directory pointing to the main file to be compiled after initialization.
           This file will become the previewed file in the Typst web application.
-        minLength: 1 # Entrypoint should not be empty
-        pattern: .*\.typ$ # Must be a .typ file
+        minLength: 1
+        pattern: .*\.typ$
         examples:
           - main.typ
           - report.typ
@@ -271,7 +293,7 @@ properties:
       Each tool should create its own entry under this section.
     propertyNames:
       type: string
-      minLength: 1 # Tool names should not be empty
+      minLength: 1
     additionalProperties:
       type: object
     examples:
@@ -294,8 +316,8 @@ allOf:
         package:
           type: object
           required:
-            - categories # Only categories is strictly required for templates
+            - categories
           properties:
             categories:
               type: array
-              minItems: 1 # Templates must have at least one category
+              minItems: 1

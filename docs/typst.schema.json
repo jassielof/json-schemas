@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://jassielof.github.io/json-schemas/docs/typst.schema.json",
   "title": "Typst Package Manifest",
-  "description": "Schema for typst.toml package manifest files, used by the Typst package manager and universe.\nhttps://github.com/typst/packages/blob/main/docs/manifest.md",
+  "description": "(Community) Schema for typst.toml package manifest files, used by the Typst package manager and universe.\nhttps://github.com/typst/packages/blob/main/docs/manifest.md",
   "type": "object",
   "required": ["package"],
   "properties": {
@@ -43,8 +43,18 @@
         },
         "license": {
           "type": "string",
-          "description": "The package's license. Must contain a valid SPDX 2.3 expression describing one or multiple licenses.\nSee [Licensing](https://github.com/typst/packages/blob/main/docs/licensing.md).\nRequired for Typst Universe submission.",
-          "examples": ["MIT", "Apache-2.0", "GPL-3.0-or-later", "MIT OR Apache-2.0", "CC-BY-SA-4.0"]
+          "description": "The package's license, specified as a valid SPDX license expression.\n\nMust be a valid SPDX license expression using identifiers from the SPDX License List, check:\n- <https://spdx.org/licenses/>\n- <https://opensource.org/licenses>\n\nAllowed license types:\n- OSI-approved licenses (MIT, Apache-2.0, GPL-3.0-or-later, BSD-3-Clause, etc.)\n- Creative Commons licenses: CC-BY, CC-BY-SA, or CC0 variants\n\nExpression syntax:\n- Single license: Use the SPDX short identifier (e.g., \"MIT\")\n- Multiple licenses (choice): Use OR operator (e.g., \"MIT OR Apache-2.0\")\n- Multiple licenses (all apply): Use AND operator (e.g., \"LGPL-2.1-only AND BSD-3-Clause\")\n- License with exception: Use WITH operator (e.g., \"GPL-2.0-or-later WITH Autoconf-exception-2.0\")\n- Version flexibility: Use \"-only\" or \"-or-later\" suffixes for versioned licenses\n- Grouping: Use parentheses to control precedence (e.g., \"(MIT OR Apache-2.0) AND CC0-1.0\")\n\nNote: Creative Commons licenses are recommended only for content/data packages or CC-BY-SA derivatives, not for code. For template packages where generated content should be freely distributable, consider permissive licenses like MIT-0 or 0BSD.\n\nRequired for Typst Universe submission. Must also include a LICENSE file or link to the license in README.md. See https://github.com/typst/packages/blob/main/docs/licensing.md",
+          "examples": [
+            "MIT",
+            "MIT-0",
+            "MPL-2.0",
+            "EUPL-1.2",
+            "Unlicense",
+            "Apache-2.0",
+            "GPL-3.0-or-later",
+            "MIT OR Apache-2.0",
+            "CC-BY-SA-4.0"
+          ]
         },
         "description": {
           "type": "string",

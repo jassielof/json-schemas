@@ -4,6 +4,7 @@
 name = "apa"
 version = "0.1.0"
 entrypoint = "lib.typ"
+categories = ["book"]
 
 [template]
 path = "template"
